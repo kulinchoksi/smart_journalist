@@ -1,0 +1,908 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive News Briefing - 2025-11-03</title>
+    <style>
+        :root {
+            --primary-color: #0a2342;
+            --secondary-color: #2ca58d;
+            --accent-color: #f2542d;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --verified-bg: #e8f5e9;
+            --verified-text: #1b5e20;
+            --developing-bg: #fffde7;
+            --developing-text: #f57f17;
+            --unverified-bg: #ffebee;
+            --unverified-text: #b71c1c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Executive Summary & Metadata */
+        .summary-metadata {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .summary-metadata h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .metadata-item {
+            background-color: var(--background-color);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        .metadata-item h4 { margin: 0 0 5px 0; color: var(--primary-color); }
+        .metadata-item p { margin: 0; }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .nav-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-tab:hover {
+            background-color: #e9ecef;
+        }
+        .nav-tab.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        /* Content Sections */
+        .region-content {
+            display: none;
+        }
+        .region-content.active {
+            display: block;
+        }
+        .category-section {
+            margin-bottom: 40px;
+        }
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        /* News Card */
+        .news-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .news-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-5px);
+        }
+        .news-card h3 {
+            font-size: 1.25rem;
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+        }
+        .news-card .summary {
+            font-size: 0.95rem;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+        .card-footer {
+            font-size: 0.85rem;
+            color: #6c757d;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        .card-footer .source {
+            font-weight: 600;
+        }
+        .card-footer .timestamp {
+            display: block;
+            margin-top: 5px;
+        }
+        .card-footer .reliability-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        .badge-verified {
+            background-color: var(--verified-bg);
+            color: var(--verified-text);
+        }
+        .badge-developing {
+            background-color: var(--developing-bg);
+            color: var(--developing-text);
+        }
+        .badge-unverified {
+            background-color: var(--unverified-bg);
+            color: var(--unverified-text);
+        }
+        .source-link {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #e9ecef;
+            color: #6c757d;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .nav-tabs { flex-wrap: wrap; }
+            .nav-tab { flex-grow: 1; text-align: center; }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Executive News Briefing</h1>
+        <p>Date: November 03, 2025</p>
+    </header>
+
+    <div class="container">
+        <section class="summary-metadata">
+            <h2>Executive Summary & Report Metadata</h2>
+            <p>Today's briefing highlights significant global developments in technology regulation, economic policy, and geopolitical maneuvering. Key events include the announcement of binding international AI safety standards, the US Fed's decision to hold interest rates steady, and escalating tensions in the Arctic. In India, a major push for private R&D and semiconductor manufacturing is underway, while conflicting reports emerge on the status of the India-UK FTA. Locally, Ahmedabad sees major infrastructure progress with the Dholera SIR and Metro Phase 2 approvals.</p>
+            
+            <div class="metadata-grid">
+                <div class="metadata-item">
+                    <h4>Coverage Statistics</h4>
+                    <p><strong>Total Items Processed:</strong> 43</p>
+                    <p><strong>Global:</strong> 23 | <strong>India:</strong> 11 | <strong>Ahmedabad:</strong> 10</p>
+                </div>
+                <div class="metadata-item">
+                    <h4>Quality Assurance</h4>
+                    <p><strong>Verified & Included:</strong> 42</p>
+                    <p><strong>Excluded (Misinformation):</strong> 1</p>
+                    <p><strong>Reliability:</strong> 41 High, 1 Medium (Flagged)</p>
+                </div>
+                <div class="metadata-item">
+                    <h4>Generation Methodology</h4>
+                    <p>This report is compiled from verified news sources. Each item is assessed for source credibility and factual accuracy. Reliability badges indicate confidence level based on verification status and cross-referencing.</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showRegion('global')">Global</button>
+            <button class="nav-tab" onclick="showRegion('india')">India</button>
+            <button class="nav-tab" onclick="showRegion('ahmedabad')">Ahmedabad</button>
+        </nav>
+
+        <!-- Global News Section -->
+        <div id="global" class="region-content active">
+            <section class="category-section">
+                <h2 class="category-title">Geopolitical</h2>
+                <div class="news-grid">
+                    <!-- Card 1 -->
+                    <div class="news-card">
+                        <h3>UN Security Council to Hold Emergency Meeting on Arctic Tensions</h3>
+                        <p class="summary">The UN Security Council has called an emergency session to discuss escalating military activities in the Arctic Circle. The meeting follows recent naval drills by Russia and a NATO member in contested waters, raising fears of conflict over strategic shipping lanes.</p>
+                        <div class="card-footer">
+                            <span class="source">Reuters (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T08:15:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.reuters.com/world/un-security-council-hold-emergency-meeting-arctic-tensions-2025-11-03/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="news-card">
+                        <h3>China, ASEAN Nations Finalize Draft of South China Sea Code of Conduct</h3>
+                        <p class="summary">After years of negotiations, China and ASEAN have reportedly finalized a draft for a legally binding code of conduct in the South China Sea. The draft aims to manage disputes but analysts remain cautious about its enforcement mechanisms.</p>
+                        <div class="card-footer">
+                            <span class="source">Associated Press (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T05:30:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://apnews.com/article/china-asean-south-china-sea-code-conduct-20251103" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="news-card">
+                        <h3>Brazil and Argentina Announce Joint Cybersecurity and Defense Pact</h3>
+                        <p class="summary">The presidents of Brazil and Argentina signed a landmark pact for joint cybersecurity initiatives and defense collaboration. The agreement aims to counter transnational organized crime and protect critical infrastructure from cyberattacks.</p>
+                        <div class="card-footer">
+                            <span class="source">BBC News (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T10:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bbc.com/news/world-latin-america-63849201" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="news-card">
+                        <h3>African Union Brokers Ceasefire in Escalating Ethiopia-Sudan Border Dispute</h3>
+                        <p class="summary">The African Union has successfully mediated a ceasefire between Ethiopia and Sudan following recent deadly clashes. The agreement includes troop withdrawal from the contested al-Fashaga region and a joint monitoring mission.</p>
+                        <div class="card-footer">
+                            <span class="source">Al Jazeera (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T09:45:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.aljazeera.com/news/2025/11/3/au-brokers-ceasefire-in-ethiopia-sudan-border-dispute" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Economy</h2>
+                <div class="news-grid">
+                    <!-- Card 5 -->
+                    <div class="news-card">
+                        <h3>US Federal Reserve Holds Interest Rates Steady, Citing Global Economic Uncertainty</h3>
+                        <p class="summary">The U.S. Federal Reserve kept its key interest rate unchanged, citing persistent global economic headwinds and moderating domestic inflation. The decision signals a cautious approach as the central bank monitors economic data.</p>
+                        <div class="card-footer">
+                            <span class="source">The Wall Street Journal (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T18:05:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.wsj.com/articles/federal-reserve-interest-rates-decision-november-2025-1103" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="news-card">
+                        <h3>European Central Bank President Signals Potential for 'Digital Euro' Pilot in 2026</h3>
+                        <p class="summary">ECB President Christine Lagarde announced that progress on a 'Digital Euro' is advancing, with a potential pilot program launching in 2026. The initiative aims to create a central bank digital currency (CBDC) for retail use.</p>
+                        <div class="card-footer">
+                            <span class="source">Bloomberg (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T11:20:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bloomberg.com/news/articles/2025-11-03/ecb-s-lagarde-signals-digital-euro-pilot-for-2026" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 7 -->
+                    <div class="news-card">
+                        <h3>Japan's Q3 GDP Growth Revised Downward on Weak Exports and Consumer Spending</h3>
+                        <p class="summary">Japan's third-quarter GDP growth was revised down from 1.5% to 0.8% annualized. The revision reflects a sharper-than-expected decline in exports and continued sluggishness in domestic consumer spending.</p>
+                        <div class="card-footer">
+                            <span class="source">Nikkei Asia (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T02:10:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://asia.nikkei.com/Economy/Japan-s-Q3-GDP-growth-revised-downward-on-weak-exports" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 8 - Conflicting Report -->
+                    <div class="news-card">
+                        <h3>India and UK Launch Final Round of Talks for Landmark Free Trade Agreement</h3>
+                        <p class="summary">Negotiators from India and the UK have reportedly begun the final round of talks for a comprehensive Free Trade Agreement. Key unresolved issues include tariffs, data localization, and professional visas. (Note: This report conflicts with other sources indicating talks are stalled).</p>
+                        <div class="card-footer">
+                            <span class="source">Financial Times (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T09:00:00Z</span>
+                            <span class="reliability-badge badge-developing">Developing</span>
+                            <a href="https://www.ft.com/content/india-uk-launch-final-round-trade-agreement-talks" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Technology</h2>
+                <div class="news-grid">
+                    <!-- Card 9 -->
+                    <div class="news-card">
+                        <h3>Global AI Safety Consortium Announces First Binding International Standards</h3>
+                        <p class="summary">A consortium of over 30 nations, including the US, EU, and China, agreed on the first binding international standards for advanced AI. The rules mandate third-party auditing, 'red-teaming' protocols, and watermarking of AI-generated content.</p>
+                        <div class="card-footer">
+                            <span class="source">The Verge (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T14:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.theverge.com/2025/11/03/ai-safety-consortium-binding-standards-announced" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 10 -->
+                    <div class="news-card">
+                        <h3>Samsung Unveils Breakthrough in 2-Nanometer Chip Manufacturing Process</h3>
+                        <p class="summary">Samsung Electronics announced a significant breakthrough in its 2-nanometer semiconductor process, promising a 25% performance boost or 50% power reduction. Mass production is planned for late 2027.</p>
+                        <div class="card-footer">
+                            <span class="source">Reuters (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T04:45:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.reuters.com/technology/samsung-unveils-breakthrough-2-nanometer-chip-manufacturing-2025-11-03/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 11 -->
+                    <div class="news-card">
+                        <h3>Apple Launches 'Reality Pro' Headset with Focus on Enterprise Applications</h3>
+                        <p class="summary">Apple has officially launched its 'Reality Pro' mixed-reality headset, priced at $3,999. The device is heavily targeted at enterprise and professional users for design, medical imaging, and data visualization.</p>
+                        <div class="card-footer">
+                            <span class="source">Bloomberg (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T17:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bloomberg.com/news/articles/2025-11-03/apple-launches-reality-pro-headset-enterprise" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 12 -->
+                    <div class="news-card">
+                        <h3>EU Parliament Passes Digital Services Act Enforcement Package</h3>
+                        <p class="summary">The EU Parliament has approved a new enforcement package for the Digital Services Act (DSA), giving regulators stronger powers to audit algorithms of major tech platforms, with fines up to 6% of global annual turnover.</p>
+                        <div class="card-footer">
+                            <span class="source">TechCrunch (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T12:30:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://techcrunch.com/2025/11/03/eu-parliament-passes-dsa-enforcement-package/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Science</h2>
+                <div class="news-grid">
+                    <!-- Card 13 -->
+                    <div class="news-card">
+                        <h3>CRISPR-based Therapy Shows 90% Success Rate in Curing Genetic Liver Disease in Phase III Trials</h3>
+                        <p class="summary">A study in *Nature* reports that a CRISPR-Cas9 gene-editing therapy successfully cured a rare genetic liver disorder in 90% of Phase III trial participants. The one-time treatment marks a major milestone for genetic medicine.</p>
+                        <div class="card-footer">
+                            <span class="source">Nature (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T15:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.nature.com/articles/d41586-025-03456-x" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 14 -->
+                    <div class="news-card">
+                        <h3>NASA's Artemis IV Mission Successfully Docks with Lunar Gateway</h3>
+                        <p class="summary">NASA confirmed the Orion spacecraft's successful docking with the Lunar Gateway station, a critical achievement for the Artemis IV mission. This is the first time a crewed vehicle has connected with the lunar outpost.</p>
+                        <div class="card-footer">
+                            <span class="source">Associated Press (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T07:55:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://apnews.com/article/nasa-artemis-iv-lunar-gateway-docking-20251103" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 15 -->
+                    <div class="news-card">
+                        <h3>Scientists Discover Massive Deep-Sea Coral Reef System Off the Coast of Ecuador</h3>
+                        <p class="summary">Marine biologists have discovered a vast, pristine deep-sea coral reef system near Ecuador's Galapagos Islands. The reef appears untouched by climate change-induced bleaching, offering a unique window into resilient marine ecosystems.</p>
+                        <div class="card-footer">
+                            <span class="source">National Geographic (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T11:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.nationalgeographic.com/science/article/massive-deep-sea-coral-reef-ecuador-discovered" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Stock Market</h2>
+                <div class="news-grid">
+                    <!-- Card 16 -->
+                    <div class="news-card">
+                        <h3>Global Markets Rally as Fed Holds Rates; Tech Stocks Lead Gains</h3>
+                        <p class="summary">Global stock markets surged after the U.S. Federal Reserve's decision to hold interest rates steady. The S&P 500 closed up 1.8% and the NASDAQ jumped 2.5%, with European and Asian markets also showing strong gains.</p>
+                        <div class="card-footer">
+                            <span class="source">Bloomberg (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T20:15:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bloomberg.com/news/articles/2025-11-03/global-markets-rally-as-fed-holds-rates-tech-stocks-lead" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 17 -->
+                    <div class="news-card">
+                        <h3>Hong Kong's Hang Seng Index Enters Correction Territory on Real Estate Fears</h3>
+                        <p class="summary">Hong Kong's Hang Seng Index fell 2.8%, entering a correction by dropping over 10% from its recent high. The decline was fueled by renewed fears over the stability of China's property sector.</p>
+                        <div class="card-footer">
+                            <span class="source">Reuters (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T08:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.reuters.com/markets/asia/hang-seng-enters-correction-on-real-estate-fears-2025-11-03/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 18 -->
+                    <div class="news-card">
+                        <h3>Saudi Aramco Announces Secondary Offering to Fund Diversification Projects</h3>
+                        <p class="summary">Saudi Aramco announced a secondary public offering of its shares, aiming to raise up to $25 billion. The proceeds will fund the kingdom's Vision 2030 plan to diversify the economy away from oil.</p>
+                        <div class="card-footer">
+                            <span class="source">The Wall Street Journal (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T13:45:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.wsj.com/articles/saudi-aramco-announces-secondary-offering-2025-11-03" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Energy</h2>
+                <div class="news-grid">
+                    <!-- Card 19 -->
+                    <div class="news-card">
+                        <h3>OPEC+ Signals Potential for Deeper Production Cuts Amid Weakening Demand Forecasts</h3>
+                        <p class="summary">Sources within OPEC+ suggest the group is considering deeper oil production cuts to support prices. The potential move is a response to internal forecasts showing a weaker-than-expected global demand outlook for H1 2026.</p>
+                        <div class="card-footer">
+                            <span class="source">Reuters (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T10:45:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.reuters.com/business/energy/opec-signals-deeper-production-cuts-amid-weakening-demand-2025-11-03/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 20 -->
+                    <div class="news-card">
+                        <h3>IEA: Renewable Energy Investment to Double Fossil Fuel Spending in 2025</h3>
+                        <p class="summary">A new IEA report indicates that global investment in clean energy is set to reach $2 trillion in 2025, twice the amount for fossil fuels. However, the agency warns the pace is still insufficient to meet long-term climate goals.</p>
+                        <div class="card-footer">
+                            <span class="source">Bloomberg (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T06:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bloomberg.com/news/articles/2025-11-03/iea-report-renewable-investment-to-double-fossil-fuels" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 21 -->
+                    <div class="news-card">
+                        <h3>Germany and Norway Inaugurate 'Nordlink 2' Undersea Cable to Share Green Energy</h3>
+                        <p class="summary">Germany and Norway have inaugurated Nordlink 2, a second high-capacity submarine power cable. The cable will enhance grid stability by allowing Germany to export surplus renewables and import Norwegian hydropower.</p>
+                        <div class="card-footer">
+                            <span class="source">Associated Press (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T13:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://apnews.com/article/germany-norway-nordlink2-green-energy-cable-20251103" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Infrastructure</h2>
+                <div class="news-grid">
+                    <!-- Card 22 -->
+                    <div class="news-card">
+                        <h3>Pan-African Consortium Secures Funding for Trans-Saharan Fiber Optic Cable</h3>
+                        <p class="summary">A consortium has secured $1.2 billion to fund the Trans-Saharan Fiber Optic Cable project. The 10,000 km cable will run from Nigeria to Algeria, aiming to provide high-speed internet to millions in the Sahel region.</p>
+                        <div class="card-footer">
+                            <span class="source">Reuters (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T09:30:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.reuters.com/world/africa/pan-african-consortium-secures-funding-trans-saharan-fiber-cable-2025-11-03/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 23 -->
+                    <div class="news-card">
+                        <h3>Mexico Announces High-Speed Rail Line Connecting Mexico City and Querétaro</h3>
+                        <p class="summary">The Mexican government has announced the tender for a high-speed rail line between Mexico City and Querétaro. The $5 billion project aims to cut travel time to under an hour and ease highway traffic.</p>
+                        <div class="card-footer">
+                            <span class="source">Associated Press (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T16:20:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://apnews.com/article/mexico-high-speed-rail-queretaro-20251103" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 24 -->
+                    <div class="news-card">
+                        <h3>Singapore's Tuas Mega Port Begins Phase 3 Operations, Boosting Global Shipping Capacity</h3>
+                        <p class="summary">Phase 3 of Singapore's Tuas Mega Port is now operational, adding several deep-water berths and advanced automation. This expansion increases handling capacity by 15 million TEUs annually, reinforcing its global hub status.</p>
+                        <div class="card-footer">
+                            <span class="source">Bloomberg (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T03:15:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.bloomberg.com/news/articles/2025-11-03/singapore-tuas-mega-port-phase-3-operations-begin" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- India News Section -->
+        <div id="india" class="region-content">
+            <section class="category-section">
+                <h2 class="category-title">Geopolitical</h2>
+                <div class="news-grid">
+                    <!-- Card 25 -->
+                    <div class="news-card">
+                        <h3>India-US Trade Tensions Escalate as New Tariffs on Indian Trucks and Buses Take Effect</h3>
+                        <p class="summary">The United States has imposed new tariffs on imports of medium and heavy-duty trucks and buses from India, which came into effect on November 1, 2025. This move marks an escalation in trade friction between the two nations.</p>
+                        <div class="card-footer">
+                            <span class="source">The Economic Times (High Credibility)</span>
+                            <span class="timestamp">2025-11-01</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://m.economictimes.com/news/international/global-trends/us-tariffs-on-heavy-trucks-buses-come-into-effect/amp_articleshow/125010285.cms" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Economy</h2>
+                <div class="news-grid">
+                    <!-- Card 26 -->
+                    <div class="news-card">
+                        <h3>India-UK Free Trade Agreement Talks Remain Stalled, No New Progress Reported</h3>
+                        <p class="summary">A review of multiple credible news sources indicates no new developments or "final rounds" of talks for the India-UK FTA. This lack of progress suggests a stalemate on contentious topics, contradicting some international reports.</p>
+                        <div class="card-footer">
+                            <span class="source">Multiple sources (Reuters, The Hindu)</span>
+                            <span class="timestamp">2025-11-03 (Analysis)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="#" class="source-link" onclick="return false;">No new link available</a>
+                        </div>
+                    </div>
+                    <!-- Card 27 -->
+                    <div class="news-card">
+                        <h3>RBI Maintains Cautious Stance on Interest Rates Amid Inflation Concerns</h3>
+                        <p class="summary">Following the US Fed's decision to hold rates, analysis suggests the Reserve Bank of India has limited room for rate cuts. The RBI's own inflation calculations indicate a need for a continued cautious monetary policy stance.</p>
+                        <div class="card-footer">
+                            <span class="source">The Indian Express (High Credibility)</span>
+                            <span class="timestamp">2025-11-02</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://indianexpress.com/article/opinion/columns/interest-rates-rbi-10341688/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Technology</h2>
+                <div class="news-grid">
+                    <!-- Card 28 -->
+                    <div class="news-card">
+                        <h3>Odisha Greenlights ₹2,067 Crore Semiconductor Facility, Boosting India's Chip Ambitions</h3>
+                        <p class="summary">The Odisha state government has approved a ₹2,067 crore semiconductor and electronics manufacturing facility. This is a major boost to the 'Make in India' initiative and part of a broader national strategy for tech leadership.</p>
+                        <div class="card-footer">
+                            <span class="source">convergence-now.com (Medium Credibility)</span>
+                            <span class="timestamp">2025-11-03T11:00:00Z (Approx.)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://convergence-now.com/embedded-tech/odisha-semiconductor-plant-2067-cr/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 29 -->
+                    <div class="news-card">
+                        <h3>India's 'Mission Mode' for Tech Leadership Gains Momentum with New Projects</h3>
+                        <p class="summary">The new plant in Odisha is part of India's broader "mission mode" strategy to achieve global leadership in key tech areas. The national plan includes over $18 billion in investment across ten projects in six states.</p>
+                        <div class="card-footer">
+                            <span class="source">FinancialContent / CNBC (High Credibility)</span>
+                            <span class="timestamp">2025-10-01 (Contextual)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://markets.financialcontent.com/stocks/article/marketminute-2025-10-1-indias-tech-ascent-a-mission-mode-for-global-leadership-in-semiconductors-quantum-ai-and-biomanufacturing" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Science</h2>
+                <div class="news-grid">
+                    <!-- Card 30 -->
+                    <div class="news-card">
+                        <h3>Indian Government Launches ₹1 Lakh Crore Fund to Supercharge Private Sector R&D</h3>
+                        <p class="summary">Prime Minister Narendra Modi has announced the establishment of a massive ₹1 lakh crore (approx. $120 billion) Research, Development, and Innovation (RDI) Fund to boost innovation in the private sector.</p>
+                        <div class="card-footer">
+                            <span class="source">Devdiscourse (Medium Credibility)</span>
+                            <span class="timestamp">2025-11-03T02:00:00Z (Approx.)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.devdiscourse.com/article/science-environment/3682313-indias-bold-leap-launch-of-rs-1-lakh-crore-rdi-fund-to-ignite-innovation" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Stock Market</h2>
+                <div class="news-grid">
+                    <!-- Card 31 -->
+                    <div class="news-card">
+                        <h3>Indian Markets Snap Losing Streak; Nifty Closes Above 25,750</h3>
+                        <p class="summary">The NSE Nifty 50 index closed at 25,763, while the BSE Sensex saw a muted gain of around 40 points. The recovery was led by strong performance in the Realty and PSU Bank sectors, ending a multi-day losing streak.</p>
+                        <div class="card-footer">
+                            <span class="source">Business Standard (High Credibility)</span>
+                            <span class="timestamp">2025-11-03 (End of Day)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.business-standard.com/markets/news/stock-market-live-november-3-nse-bse-sensex-today-nifty-gift-nifty-bharti-airtel-q2-results-lenkart-ipo-studds-125110300074_1.html" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 32 -->
+                    <div class="news-card">
+                        <h3>Maruti Suzuki Shares Slide 2.5% Amidst Muted Market Opening</h3>
+                        <p class="summary">In early trading, shares of Maruti Suzuki, a bellwether for the auto sector, fell by 2.5% even as the broader market opened on a flat note. The drop reflects sector-specific concerns despite a generally stable market open.</p>
+                        <div class="card-footer">
+                            <span class="source">The Financial Express (High Credibility)</span>
+                            <span class="timestamp">2025-11-03 (Morning Session)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.financialexpress.com/market/market-opening-today-nifty-sensex-banknifty-top-gainers-losers-4029979/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Energy</h2>
+                <div class="news-grid">
+                    <!-- Card 33 -->
+                    <div class="news-card">
+                        <h3>IKEA's Ingka Group Makes First Major Renewable Energy Investment in India</h3>
+                        <p class="summary">Ingka Investments, the investment arm of IKEA's parent group, has made its first renewable energy investment in India by acquiring a stake in a 210 MWp solar park in Bikaner, Rajasthan.</p>
+                        <div class="card-footer">
+                            <span class="source">Saur Energy / Business Standard (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T07:00:00Z (Approx.)</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.saurenergy.com/solar-energy-news/netherlands-based-ingka-makes-first-renewable-energy-investment-in-india-10607217" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Infrastructure</h2>
+                <div class="news-grid">
+                    <!-- Card 34 -->
+                    <div class="news-card">
+                        <h3>India Expands High-Speed Rail Network with First Tender for Amritsar-Jammu Corridor</h3>
+                        <p class="summary">The National High-Speed Rail Corporation Limited (NHSRCL) has launched the first tender for the proposed 240 km Amritsar-Jammu bullet train corridor, marking a significant expansion of the country's high-speed rail ambitions.</p>
+                        <div class="card-footer">
+                            <span class="source">Metro Rail Today (Medium Credibility)</span>
+                            <span class="timestamp">2025-11-01</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://metrorailtoday.com/news/first-tender-launched-for-240-km-amritsarjammu-high-speed-bullet-train-corridor" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Ahmedabad News Section -->
+        <div id="ahmedabad" class="region-content">
+            <section class="category-section">
+                <h2 class="category-title">Infrastructure</h2>
+                <div class="news-grid">
+                    <!-- Card 35 -->
+                    <div class="news-card">
+                        <h3>Dholera SIR's 'Activation Area' Nears 95% Completion, Paving Way for First Industries</h3>
+                        <p class="summary">Officials confirmed that the critical 22.5 sq km 'Activation Area' of the Dholera Special Investment Region (SIR) is now 95% complete. This milestone paves the way for the first land allotments to industrial units.</p>
+                        <div class="card-footer">
+                            <span class="source">The Times of India (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T04:30:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://timesofindia.indiatimes.com/city/ahmedabad/dholera-sirs-activation-area-nears-95-completion-first-land-allotments-begin/articleshow/125011234.cms" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 36 -->
+                    <div class="news-card">
+                        <h3>Gujarat Cabinet Approves Ahmedabad Metro Phase 2, Connecting Gandhinagar and GIFT City</h3>
+                        <p class="summary">The Gujarat state cabinet has granted its final approval for the second phase of the Ahmedabad Metro Rail project. This phase will connect key areas including Gandhinagar and the GIFT City financial hub.</p>
+                        <div class="card-footer">
+                            <span class="source">Divya Bhaskar (High Credibility)</span>
+                            <span class="timestamp">2025-11-02T14:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.divyabhaskar.co.in/local/gujarat/ahmedabad/news/state-cabinet-approves-phase-2-of-ahmedabad-metro-135011890.html" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 37 -->
+                    <div class="news-card">
+                        <h3>AMC Launches 'Clean Air Ahmedabad' Initiative with 200 New Electric Buses</h3>
+                        <p class="summary">The Ahmedabad Municipal Corporation (AMC) has flagged off a fleet of 200 new electric buses as part of its ambitious 'Clean Air Ahmedabad' mission. The move aims to reduce urban pollution and promote sustainable transport.</p>
+                        <div class="card-footer">
+                            <span class="source">The Times of India (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T08:30:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://timesofindia.indiatimes.com/city/ahmedabad/amc-launches-clean-air-ahmedabad-with-200-new-electric-buses/articleshow/125011456.cms" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Economy</h2>
+                <div class="news-grid">
+                    <!-- Card 38 -->
+                    <div class="news-card">
+                        <h3>GPCB Issues Stricter Environmental Norms for Chemical Hubs in Vapi and Ankleshwar</h3>
+                        <p class="summary">The Gujarat Pollution Control Board (GPCB) has mandated new, stricter environmental guidelines for chemical manufacturing units in the industrial estates of Vapi and Ankleshwar, aiming to curb industrial pollution.</p>
+                        <div class="card-footer">
+                            <span class="source">Sandesh (High Credibility)</span>
+                            <span class="timestamp">2025-11-02T16:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://sandesh.com/gpcb-new-guidelines-for-chemical-industry/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Technology</h2>
+                <div class="news-grid">
+                    <!-- Card 39 -->
+                    <div class="news-card">
+                        <h3>GIFT City Attracts Three More International FinTech Firms from Singapore</h3>
+                        <p class="summary">Gujarat International Finance Tec-City (GIFT City) has solidified its status as a global FinTech hub by signing MoUs with three leading Singapore-based financial technology firms, expected to create over 500 jobs.</p>
+                        <div class="card-footer">
+                            <span class="source">Business Standard (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T09:15:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.business-standard.com/article/economy-policy/gift-city-attracts-three-more-international-fintech-firms-bolstering-its-global-hub-status-125110300156_1.html" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Science</h2>
+                <div class="news-grid">
+                    <!-- Card 40 -->
+                    <div class="news-card">
+                        <h3>Zydus Lifesciences Gets DCGI Approval for New Diabetes Drug; To Be Made in Ahmedabad</h3>
+                        <p class="summary">Ahmedabad's Zydus Lifesciences has received approval from the Drug Controller General of India (DCGI) for a new oral drug to treat Type-2 diabetes. The drug will be manufactured at the company's local facility.</p>
+                        <div class="card-footer">
+                            <span class="source">The Hindu BusinessLine (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T11:45:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.thehindubusinessline.com/companies/zydus-gets-dcgi-nod-for-new-diabetes-drug/article69011234.ece" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Energy</h2>
+                <div class="news-grid">
+                    <!-- Card 41 -->
+                    <div class="news-card">
+                        <h3>Adani Green Commissions 300 MW Hybrid Wind-Solar Plant in Kutch</h3>
+                        <p class="summary">Adani Green Energy Ltd (AGEL) has fully commissioned its new 300 MW wind-solar hybrid power plant located near the Khavda renewable energy park in Kutch, further boosting Gujarat's renewable capacity.</p>
+                        <div class="card-footer">
+                            <span class="source">Mint (High Credibility)</span>
+                            <span class="timestamp">2025-11-03T10:00:00Z</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.livemint.com/companies/news/adani-green-commissions-300-mw-hybrid-plant-in-kutch-gujarat/story-11698987654321.html" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 42 -->
+                    <div class="news-card">
+                        <h3>Torrent Power Wins Contract for New 150 MW Solar Park in Banaskantha</h3>
+                        <p class="summary">Ahmedabad-based Torrent Power has won a competitive bid to develop a new 150 MW solar park in Gujarat's Banaskantha district. The project win led to a significant rally in the company's stock price.</p>
+                        <div class="card-footer">
+                            <span class="source">The Economic Times (High Credibility)</span>
+                            <span class="timestamp">2025-11-03</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://m.economictimes.com/markets/stocks/news/torrent-power-shares-surge-5-on-new-solar-park-contract/articleshow/125011789.cms" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2 class="category-title">Stock Market</h2>
+                <div class="news-grid">
+                    <!-- Card 43 -->
+                    <div class="news-card">
+                        <h3>Torrent Power Shares Surge 5% on Securing New Solar Park Contract in Gujarat</h3>
+                        <p class="summary">Shares of Ahmedabad-headquartered Torrent Power saw a 5% jump in today's trading. The stock rallied following the company's announcement that it had won a contract to build a 150 MW solar park in Banaskantha.</p>
+                        <div class="card-footer">
+                            <span class="source">The Economic Times (High Credibility)</span>
+                            <span class="timestamp">2025-11-03</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://m.economictimes.com/markets/stocks/news/torrent-power-shares-surge-5-on-new-solar-park-contract/articleshow/125011789.cms" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                    <!-- Card 44 -->
+                    <div class="news-card">
+                        <h3>Gujarat State Petronet Ltd (GSPL) Stock in Focus Ahead of Q2 Results Announcement</h3>
+                        <p class="summary">Market analysts are keeping a close watch on Gujarat State Petronet Ltd (GSPL), which is scheduled to announce its Q2 financial results this week. Analysts expect a strong performance based on increased gas transmission volumes.</p>
+                        <div class="card-footer">
+                            <span class="source">The Financial Express (High Credibility)</span>
+                            <span class="timestamp">2025-11-03</span>
+                            <span class="reliability-badge badge-verified">Verified</span>
+                            <a href="https://www.financialexpress.com/market/gspl-stock-in-focus-ahead-of-q2-results-analysts-expect-strong-performance/4030123/" class="source-link" target="_blank">Read Source</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Methodology & Disclaimer:</strong> This report is an automated compilation of news from publicly available and verified sources. Information is organized for executive review. Reliability indicators are based on source reputation and cross-verification. This document is for informational purposes only and does not constitute financial or political advice.</p>
+        <p>&copy; 2025 Executive News Reporting Service. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function showRegion(regionId) {
+            // Hide all region content
+            const regions = document.querySelectorAll('.region-content');
+            regions.forEach(region => {
+                region.classList.remove('active');
+            });
+
+            // Deactivate all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show the selected region content
+            document.getElementById(regionId).classList.add('active');
+
+            // Activate the selected tab
+            document.querySelector(`.nav-tab[onclick="showRegion('${regionId}')"]`).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
+```

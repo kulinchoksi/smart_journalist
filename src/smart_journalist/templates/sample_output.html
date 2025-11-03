@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Journalist - Daily News Report</title>
+    <style>
+        /* Styles from news_report.html template */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header .subtitle { font-size: 1.2em; opacity: 0.9; }
+        .summary-stats { background: white; border-radius: 10px; padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stat-item { text-align: center; padding: 15px; border-radius: 8px; background: #f8f9fa; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #007bff; }
+        .stat-label { color: #666; font-size: 0.9em; margin-top: 5px; }
+        .news-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .news-card-header { padding: 20px 20px 10px 20px; }
+        .news-headline { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .news-summary { color: #666; font-size: 1em; line-height: 1.5; margin-bottom: 15px; }
+        .news-card-footer { padding: 0 20px 20px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .reliability-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
+        .reliability-verified { background: #28a745; color: white; }
+        .reliability-developing { background: #ffc107; color: #212529; }
+        .category-header { background: #343a40; color: white; padding: 15px 20px; border-radius: 8px; margin: 30px 0 20px 0; }
+        .footer { background: #343a40; color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📰 Smart & Wise Journalist</h1>
+            <div class="subtitle">Daily News Report - October 24, 2025</div>
+        </div>
+
+        <!-- Summary Statistics -->
+        <div class="summary-stats">
+            <h3 style="text-align: center; margin-bottom: 20px;">📊 Coverage Summary</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">Total Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">Verified Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">28</div>
+                    <div class="stat-label">Global News</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">India News</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Ahmedabad News</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Categories Covered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Global News -->
+        <h2 style="margin-bottom: 30px; color: #2c3e50;">🌍 Global News <span style="font-size: 0.7em; color: #666;">(28 articles)</span></h2>
+
+        <!-- Technology Category -->
+        <div class="category-header">
+            <h3>💻 Technology</h3>
+            <div style="font-size: 0.9em; opacity: 0.8;">5 articles</div>
+        </div>
+
+        <div class="news-card">
+            <div class="news-card-header">
+                <h4 class="news-headline">
+                    <a href="https://example.com/ai-breakthrough" target="_blank">
+                        AI System Achieves Breakthrough in Quantum Computing Simulation
+                    </a>
+                </h4>
+                <p class="news-summary">
+                    Researchers at MIT have developed an AI system that can simulate quantum computers with unprecedented accuracy, potentially accelerating quantum research by decades. The system uses advanced neural networks to predict quantum states and interactions.
+                </p>
+            </div>
+            <div class="news-card-footer">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: bold;">MIT Technology Review</span>
+                    <span class="reliability-badge reliability-verified">VERIFIED</span>
+                </div>
+                <div style="font-size: 0.8em; color: #999;">2 hours ago</div>
+            </div>
+        </div>
+
+        <div class="news-card">
+            <div class="news-card-header">
+                <h4 class="news-headline">
+                    <a href="https://example.com/tech-regulation" target="_blank">
+                        European Union Passes Comprehensive AI Regulation Framework
+                    </a>
+                </h4>
+                <p class="news-summary">
+                    The EU Parliament has approved landmark legislation regulating artificial intelligence systems, establishing the world's first comprehensive legal framework for AI governance. The rules will take effect in 2026.
+                </p>
+            </div>
+            <div class="news-card-footer">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: bold;">Reuters</span>
+                    <span class="reliability-badge reliability-verified">VERIFIED</span>
+                </div>
+                <div style="font-size: 0.8em; color: #999;">4 hours ago</div>
+            </div>
+        </div>
+
+        <!-- Economy Category -->
+        <div class="category-header">
+            <h3>💰 Economy</h3>
+            <div style="font-size: 0.9em; opacity: 0.8;">4 articles</div>
+        </div>
+
+        <div class="news-card">
+            <div class="news-card-header">
+                <h4 class="news-headline">
+                    <a href="https://example.com/fed-decision" target="_blank">
+                        Federal Reserve Holds Interest Rates Steady Amid Economic Uncertainty
+                    </a>
+                </h4>
+                <p class="news-summary">
+                    The Federal Reserve maintained its benchmark interest rate at 5.25-5.5%, citing mixed economic signals and ongoing inflation concerns. Markets responded positively to the decision.
+                </p>
+            </div>
+            <div class="news-card-footer">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: bold;">Bloomberg</span>
+                    <span class="reliability-badge reliability-verified">VERIFIED</span>
+                </div>
+                <div style="font-size: 0.8em; color: #999;">1 hour ago</div>
+            </div>
+        </div>
+
+        <!-- Sample India News -->
+        <h2 style="margin: 50px 0 30px 0; color: #2c3e50;">🇮🇳 India News <span style="font-size: 0.7em; color: #666;">(15 articles)</span></h2>
+
+        <div class="category-header">
+            <h3>🏛️ Geopolitical</h3>
+            <div style="font-size: 0.9em; opacity: 0.8;">3 articles</div>
+        </div>
+
+        <div class="news-card">
+            <div class="news-card-header">
+                <h4 class="news-headline">
+                    <a href="https://example.com/india-trade" target="_blank">
+                        India and UAE Expand Trade Partnership with New Digital Currency Initiative
+                    </a>
+                </h4>
+                <p class="news-summary">
+                    India and the United Arab Emirates have announced a new digital trade corridor that will enable cross-border transactions using digital currencies, aiming to boost bilateral trade to $100 billion by 2030.
+                </p>
+            </div>
+            <div class="news-card-footer">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: bold;">Economic Times</span>
+                    <span class="reliability-badge reliability-verified">VERIFIED</span>
+                </div>
+                <div style="font-size: 0.8em; color: #999;">3 hours ago</div>
+            </div>
+        </div>
+
+        <!-- Sample Ahmedabad News -->
+        <h2 style="margin: 50px 0 30px 0; color: #2c3e50;">🏙️ Ahmedabad News <span style="font-size: 0.7em; color: #666;">(4 articles)</span></h2>
+
+        <div class="category-header">
+            <h3>🚇 Infrastructure</h3>
+            <div style="font-size: 0.9em; opacity: 0.8;">2 articles</div>
+        </div>
+
+        <div class="news-card">
+            <div class="news-card-header">
+                <h4 class="news-headline">
+                    <a href="https://example.com/ahmedabad-metro" target="_blank">
+                        Ahmedabad Metro Phase 2 Construction Reaches Milestone with 60% Completion
+                    </a>
+                </h4>
+                <p class="news-summary">
+                    The second phase of Ahmedabad Metro Rail project has achieved 60% completion, with authorities targeting commercial operations by late 2025. The project will connect key areas including Airport and GIFT City.
+                </p>
+            </div>
+            <div class="news-card-footer">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: bold;">Times of India</span>
+                    <span class="reliability-badge reliability-verified">VERIFIED</span>
+                </div>
+                <div style="font-size: 0.8em; color: #999;">5 hours ago</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h4>📋 Methodology & Disclaimer</h4>
+            <p>
+                This report is generated using AI-powered news gathering and verification systems. 
+                All news items are collected from publicly available sources and verified through 
+                multiple channels when possible. Reliability indicators represent our assessment 
+                of source credibility and information verification status.
+            </p>
+            <p style="margin-top: 15px;">
+                <strong>Generated:</strong> October 24, 2025, 6:30 PM IST | 
+                <strong>Sources:</strong> Multiple verified news outlets | 
+                <strong>AI:</strong> Google Gemini-2.5-pro
+            </p>
+        </div>
+    </div>
+</body>
+</html>

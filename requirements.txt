@@ -1,0 +1,12 @@
+# Core CrewAI - Lock to working versions
+crewai==1.3.0
+crewai-tools==1.3.0
+
+# LLM Support
+litellm>=1.0.0
+google-cloud-aiplatform
+
+# Python Environment
+setuptools>=65.0.0
+pydantic>=2.5.0
+python-dotenv

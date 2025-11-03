@@ -1,0 +1,26 @@
+version: '1.0'
+
+services:
+  smart-journalist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart-journalist
+    environment:
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+      - FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY}
+      - TEMPERATURE=${TEMPERATURE}
+      - MODEL_NAME=${MODEL_NAME}
+    volumes:
+      - ./output:/app/output
+      - ./logs:/app/logs
+      - ./.secrets:/app/.secrets:ro
+      # Mount the current directory for development
+      - .:/app
+    stdin_open: true    # Keep STDIN open for interactive use
+    tty: true          # Allocate a pseudo-TTY for interactive terminal
+    restart: unless-stopped
+    working_dir: /app
