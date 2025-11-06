@@ -14,6 +14,7 @@ services:
       - FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY}
       - TEMPERATURE=${TEMPERATURE}
       - MODEL_NAME=${MODEL_NAME}
+      - REASONING_MODEL_NAME=${REASONING_MODEL_NAME}
     volumes:
       - ./output:/app/output
       - ./logs:/app/logs

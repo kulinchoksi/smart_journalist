@@ -74,9 +74,9 @@ def main():
 
         import traceback
         try:
-            # Set 10 minute timeout
+            # Set 25 minute timeout
             signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(600)  # 10 minutes
+            signal.alarm(1500)  # 25 minutes
 
             # Execute the crew
             result = crew_instance.crew().kickoff(inputs=inputs)

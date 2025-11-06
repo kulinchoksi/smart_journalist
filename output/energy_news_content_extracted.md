@@ -1,0 +1,1 @@
+I cannot fulfill this request as no URLs were provided in the context. To extract detailed content, I require specific website URLs to use the `Read website content` tool. Please provide the URLs for the promising energy news articles.

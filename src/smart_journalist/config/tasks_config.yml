@@ -1,0 +1,368 @@
+# Smart Journalist Crew - Task Configurations
+# Specialized task design for better quality and reliability
+
+tasks:
+  # PHASE 1: NEWS DISCOVERY (Parallel Execution)
+  
+  search_geopolitical:
+    description: |
+      Search for today's most important geopolitical news stories worldwide.
+      
+      SEARCH TARGETS:
+      - International relations and diplomacy
+      - Global conflicts and resolutions
+      - International trade and sanctions
+      - Cross-border political developments
+      - Global security and defense issues
+      
+      SEARCH STRATEGY:
+      - Use specific search terms: "geopolitical news", "international relations", "diplomatic news"
+      - Focus on credible sources: Reuters, AP, BBC, diplomatic press releases
+      - Look for stories from the last 24 hours
+      - Extract: headline, snippet, source, URL, timestamp
+      
+      SUCCESS CRITERIA:
+      - Find 3-5 promising geopolitical stories
+      - Each story must have clear international significance
+      - Provide enough detail from search snippets for analysis
+      - Complete within 90 seconds
+    expected_output: |
+      List of 3-5 geopolitical news stories with:
+      - Headline
+      - Summary from search snippet
+      - Source name and credibility rating
+      - URL for potential scraping
+      - Geographic regions affected
+      - Relevance score (1-10)
+    agent: "search_specialist"
+    context: []
+    max_execution_time: 90
+    
+  search_technology:
+    description: |
+      Search for today's most significant technology news and developments.
+      
+      SEARCH TARGETS:
+      - Major tech company announcements
+      - Breakthrough technology developments
+      - AI and machine learning advances
+      - Cybersecurity and data privacy issues
+      - Tech industry mergers and acquisitions
+      
+      SEARCH STRATEGY:
+      - Use varied search terms: "technology news", "tech developments", "AI news", "cybersecurity"
+      - Focus on tech-friendly sources: TechCrunch, Ars Technica, tech company blogs
+      - Look for recent announcements and developments
+      - Extract technical details from search snippets
+      
+      SUCCESS CRITERIA:
+      - Find 3-5 significant technology stories
+      - Include both consumer and enterprise tech news
+      - Provide technical context from search results
+      - Complete within 90 seconds
+    expected_output: |
+      List of 3-5 technology news stories with:
+      - Headline
+      - Technical summary from search snippet  
+      - Source name and tech focus area
+      - URL for potential scraping
+      - Technology categories (AI, Security, Hardware, etc.)
+      - Innovation impact score (1-10)
+    agent: "search_specialist"  
+    context: []
+    max_execution_time: 90
+    
+  search_economy:
+    description: |
+      Search for today's most important economic and business news globally.
+      
+      SEARCH TARGETS:
+      - Major market movements and trends
+      - Central bank announcements and monetary policy
+      - Corporate earnings and business developments
+      - Economic indicators and forecasts
+      - Trade and economic policy changes
+      
+      SEARCH STRATEGY:
+      - Use economic search terms: "economic news", "market news", "business developments"
+      - Focus on financial sources: Bloomberg, Financial Times, MarketWatch, economic press
+      - Look for market-moving news and analysis
+      - Extract financial data and trends from snippets
+      
+      SUCCESS CRITERIA:
+      - Find 3-5 major economic stories
+      - Include both micro and macroeconomic news
+      - Capture market impact and financial implications
+      - Complete within 90 seconds
+    expected_output: |
+      List of 3-5 economic news stories with:
+      - Headline
+      - Economic summary from search snippet
+      - Source name and financial focus
+      - URL for potential scraping  
+      - Economic categories (Markets, Policy, Corporate, etc.)
+      - Market impact score (1-10)
+    agent: "search_specialist"
+    context: []
+    max_execution_time: 90
+    
+  # PHASE 2: SELECTIVE CONTENT EXTRACTION (Sequential)
+  
+  extract_priority_content:
+    description: |
+      Extract detailed content from the highest-priority news URLs identified in the search phase.
+      
+      EXTRACTION STRATEGY:
+      - Review all URLs from search tasks
+      - Select top 3-4 most promising URLs based on:
+        * Source credibility
+        * Story importance  
+        * Scraping feasibility
+      - Attempt scraping in order of priority
+      - Skip URLs that show blocking or JavaScript requirements
+      
+      SCRAPING PRIORITIES:
+      1. Tech blogs and company press releases (usually scraper-friendly)
+      2. Open news sites and wire services
+      3. Government and institutional websites
+      4. Avoid: Major newspaper paywalls, heavily protected sites
+      
+      SUCCESS CRITERIA:
+      - Successfully scrape 2-3 high-value articles
+      - Extract full article content, not just snippets
+      - Maintain content quality and formatting
+      - Complete within 2 minutes total
+    expected_output: |
+      Detailed content for 2-3 priority news stories including:
+      - Full article headline and subheading
+      - Complete article text with key details
+      - Author and publication information
+      - Publication date and timestamp
+      - Source URL and credibility assessment
+      - Content quality rating
+    agent: "content_specialist"
+    context: ["search_geopolitical", "search_technology", "search_economy"]
+    max_execution_time: 120
+    
+  # PHASE 3: VERIFICATION AND QUALITY (Sequential)
+  
+  verify_key_stories:
+    description: |
+      Verify the most important stories through additional targeted searches and cross-referencing.
+      
+      VERIFICATION PROCESS:
+      - Identify the 2-3 most significant stories from previous phases
+      - Search for additional sources covering the same stories
+      - Look for conflicting information or different perspectives
+      - Verify key facts, dates, and claims
+      - Check for official statements or press releases
+      
+      VERIFICATION PRIORITIES:
+      1. Stories with major global impact
+      2. Stories affecting financial markets  
+      3. Stories with conflicting information
+      4. Stories from less familiar sources
+      
+      SUCCESS CRITERIA:
+      - Verify accuracy of key claims in top stories
+      - Find additional authoritative sources
+      - Identify any contradictory information
+      - Complete verification within 90 seconds
+    expected_output: |
+      Verification report for key stories including:
+      - Story verification status (Verified/Partially Verified/Needs Review)
+      - Additional sources found
+      - Any conflicting information discovered
+      - Confidence rating for each story (1-10)
+      - Recommendations for story prominence
+    agent: "verification_specialist"
+    context: ["search_geopolitical", "search_technology", "search_economy", "extract_priority_content"]
+    max_execution_time: 90
+    
+  # PHASE 4: GEOGRAPHIC PROCESSING (Sequential)
+  
+  process_geographic_relevance:
+    description: |
+      Analyze all collected news and organize by geographic relevance for Global, India, and Ahmedabad audiences.
+      
+      GEOGRAPHIC ANALYSIS:
+      - Review all stories from previous phases
+      - Assess relevance to each geographic region
+      - Consider both direct and indirect impacts
+      - Assign relevance scores and reasoning
+      
+      RELEVANCE CRITERIA:
+      
+      GLOBAL RELEVANCE:
+      - Stories affecting multiple countries or regions
+      - International diplomatic or trade developments
+      - Global economic or technology trends
+      - Worldwide security or environmental issues
+      
+      INDIA RELEVANCE:  
+      - Stories directly involving India or Indian companies
+      - International developments affecting Indian interests
+      - Regional developments in South Asia
+      - Stories relevant to Indian diaspora
+      
+      AHMEDABAD RELEVANCE:
+      - Stories affecting Gujarat or Western India
+      - Developments in sectors important to Ahmedabad (textiles, chemicals, pharma)
+      - Infrastructure or business developments affecting the region
+      - Stories with local cultural or economic significance
+      
+      SUCCESS CRITERIA:
+      - Classify all stories by geographic relevance
+      - Provide clear reasoning for classifications
+      - Ensure balanced coverage across regions
+      - Complete analysis within 90 seconds
+    expected_output: |
+      Geographic analysis report including:
+      - Stories categorized by region (Global/India/Ahmedabad)
+      - Relevance scores for each region (High/Medium/Low)
+      - Reasoning for geographic classifications
+      - Regional impact assessments
+      - Recommendations for regional coverage balance
+    agent: "geographic_specialist"
+    context: ["search_geopolitical", "search_technology", "search_economy", "extract_priority_content", "verify_key_stories"]
+    max_execution_time: 90
+    
+  # PHASE 5: QUALITY ASSURANCE (Sequential)
+  
+  quality_review:
+    description: |
+      Conduct comprehensive quality review of all collected news to ensure professional standards.
+      
+      QUALITY ASSESSMENT AREAS:
+      1. Content Completeness - Are stories fully developed?
+      2. Source Credibility - Are sources reliable and authoritative?
+      3. Information Accuracy - Is information consistent and verified?
+      4. Coverage Balance - Is there good category and regional balance?
+      5. Timeliness - Are stories current and relevant?
+      
+      QUALITY CHECKS:
+      - Review headline clarity and accuracy
+      - Assess content depth and informativeness
+      - Verify source attribution and credibility
+      - Check for bias or unbalanced reporting
+      - Ensure geographic relevance assignments are appropriate
+      
+      QUALITY RATINGS:
+      - Excellent: Ready for featured coverage
+      - Good: Suitable for standard coverage  
+      - Needs Improvement: Requires more information or verification
+      - Poor: Should be excluded from report
+      
+      SUCCESS CRITERIA:
+      - Review all collected stories for quality
+      - Provide clear quality ratings and feedback
+      - Identify top stories for featured coverage
+      - Complete review within 90 seconds
+    expected_output: |
+      Quality assessment report including:
+      - Quality rating for each story (Excellent/Good/Needs Improvement/Poor)
+      - Specific feedback on content, sources, and completeness
+      - Top 3-5 stories recommended for featured coverage
+      - Overall coverage assessment and recommendations
+      - Any gaps or areas needing additional coverage
+    agent: "quality_specialist"
+    context: ["search_geopolitical", "search_technology", "search_economy", "extract_priority_content", "verify_key_stories", "process_geographic_relevance"]
+    max_execution_time: 90
+    
+  # PHASE 6: FINAL REPORT GENERATION (Sequential)
+  
+  generate_final_report:
+    description: |
+      Generate comprehensive, professional news report synthesizing all collected information.
+      
+      REPORT STRUCTURE:
+      1. Executive Summary
+         - Top 3 most significant stories of the day
+         - Key themes and trends identified
+         - Geographic distribution summary
+      
+      2. Featured Stories  
+         - Detailed coverage of top-rated stories
+         - Full content with proper attribution
+         - Context and analysis
+      
+      3. Category Breakdown
+         - Geopolitical developments
+         - Technology advances
+         - Economic news
+         - Other categories as collected
+      
+      4. Regional Focus
+         - Global perspective stories
+         - India-specific developments  
+         - Ahmedabad local relevance
+      
+      5. Sources and Methodology
+         - Source list with credibility ratings
+         - Collection and verification methods
+         - Quality assurance summary
+      
+      FORMATTING STANDARDS:
+      - Professional news writing style
+      - Clear section headers and organization
+      - Proper source attribution throughout
+      - Consistent formatting and tone
+      - Include timestamps and metadata
+      
+      SUCCESS CRITERIA:
+      - Comprehensive report covering all collected news
+      - Professional formatting and presentation
+      - Clear organization and logical flow
+      - Complete within 2 minutes
+    expected_output: |
+      Professional news report including:
+      - Executive Summary with key highlights
+      - Featured Stories with detailed coverage
+      - Category-organized news sections
+      - Regional relevance sections
+      - Source attribution and methodology notes
+      - Professional formatting and presentation
+      - Publication metadata and timestamps
+    agent: "report_specialist"
+    context: ["search_geopolitical", "search_technology", "search_economy", "extract_priority_content", "verify_key_stories", "process_geographic_relevance", "quality_review"]
+    max_execution_time: 120
+
+# Task Execution Flow Configuration
+execution_flow:
+  type: "mixed"  # Parallel for search phase, sequential for processing
+  phases:
+    phase_1:
+      name: "News Discovery"
+      execution: "parallel"
+      tasks: ["search_geopolitical", "search_technology", "search_economy"]
+      max_parallel_time: 90
+      
+    phase_2:
+      name: "Content Extraction"
+      execution: "sequential"
+      tasks: ["extract_priority_content"]
+      depends_on: "phase_1"
+      
+    phase_3:
+      name: "Verification"
+      execution: "sequential"  
+      tasks: ["verify_key_stories"]
+      depends_on: "phase_2"
+      
+    phase_4:
+      name: "Geographic Processing"
+      execution: "sequential"
+      tasks: ["process_geographic_relevance"]
+      depends_on: "phase_3"
+      
+    phase_5:
+      name: "Quality Assurance"
+      execution: "sequential"
+      tasks: ["quality_review"]
+      depends_on: "phase_4"
+      
+    phase_6:
+      name: "Report Generation"
+      execution: "sequential"
+      tasks: ["generate_final_report"]
+      depends_on: "phase_5"

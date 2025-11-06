@@ -1,0 +1,609 @@
+# POLITICAL NEWS TASKS (3-step workflow)
+political_news_search:
+  description: >
+    Find high-quality political news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - International relations and diplomacy developments
+    - Domestic policy changes and government actions
+    - Electoral developments and political party activities
+    - Regulatory changes and policy implementations
+    - Political conflicts, negotiations, and resolutions
+    
+    REGIONAL FOCUS:
+    - World: Major international political developments, diplomatic initiatives, cross-border political issues
+    - India: Parliamentary activities, central government policies, state politics, political party developments
+    - Ahmedabad: Gujarat state politics, local governance, municipal developments, regional political implications
+    
+    SEARCH STRATEGY:
+    - Use targeted search terms: "political news", "government policy", "diplomatic developments", "electoral updates"
+    - Focus on credible political sources: Reuters, AP, BBC, Politico, government press releases
+    - Look for stories from the last 24 hours with political significance
+    - Extract: headline, snippet, source, URL, political impact assessment
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant political stories across regions
+    - Ensure coverage of major political developments
+    - Provide sufficient detail from search results for analysis
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 political news stories with:
+    - Headline with political context
+    - Summary emphasizing political implications  
+    - Source name and political credibility rating
+    - URL for content extraction
+    - Regional relevance (World/India/Ahmedabad)
+    - Political impact score (1-10)
+    - Political category (Diplomacy/Domestic Policy/Electoral/Regulatory)
+  agent: political_news_specialist
+  output_file: "output/political_news_search_results.md"
+
+political_news_content:
+  description: >
+    Extract detailed content from promising political news URLs found from search task.
+    
+    EXTRACTION PRIORITIES:
+    - Government press releases and official statements (highest priority)
+    - Major news outlets covering political developments
+    - Political analysis from credible sources
+    - Parliamentary or legislative body announcements
+    
+    CONTENT EXTRACTION FOCUS:
+    - Full policy details and implications
+    - Political quotes and official statements
+    - Timeline of political events
+    - Stakeholder positions and reactions
+    - Economic or social implications of political decisions
+    
+    SUCCESS CRITERIA:
+    - Successfully extract detailed content from 2-3 priority political articles  
+    - Focus on articles with greatest political significance
+    - Maintain content accuracy and political context
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed political content for 2-3 priority stories including:
+    - Full article headline and political context
+    - Complete article text with key political details
+    - Official quotes and statements
+    - Political implications and analysis
+    - Author credentials and publication information
+    - Political source credibility assessment
+  agent: political_news_specialist
+  context: [political_news_search]
+  output_file: "output/political_news_content_extracted.md"
+
+political_news_verification:
+  description: >
+    Rigorously verify all collected political news for accuracy, reliability, and credibility while filtering out political misinformation.
+    
+    POLITICAL VERIFICATION PROCESS:
+    - Cross-reference political claims through official government sources
+    - Verify political quotes and statements through original sources
+    - Check policy information against official government releases
+    - Confirm electoral information through election commission sources
+    - Validate diplomatic news through foreign ministry communications
+    
+    POLITICAL SOURCE VERIFICATION:
+    - Government websites and official press releases
+    - Parliamentary records and legislative documents  
+    - International organization statements
+    - Embassy and diplomatic mission communications
+    - Credible political analysis from established institutions
+    
+    MISINFORMATION DETECTION:
+    - Flag unverified political claims
+    - Identify potential propaganda or bias
+    - Check for political manipulation or spin
+    - Verify numerical data and statistics
+    - Confirm dates and timeline accuracy
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all key political claims
+    - Identify and flag any questionable political information
+    - Provide confidence ratings for political stories
+    - Complete verification within 5 minutes
+  expected_output: >
+    Political verification report including:
+    - Story verification status (Verified/Partially Verified/Needs Review)
+    - Political source credibility assessment  
+    - Cross-reference results with official sources
+    - Political bias or misinformation flags
+    - Confidence rating for political accuracy (1-10)
+    - Recommendations for story inclusion and prominence
+  agent: political_news_specialist
+  context: [political_news_search, political_news_content]
+  output_file: "output/political_news_verification_report.md"
+
+# ECONOMY NEWS TASKS (3-step workflow)
+economy_news_search:
+  description: >
+    Find high-quality economic news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Global economic trends and market developments
+    - Central bank policies and monetary decisions
+    - Corporate earnings and business announcements
+    - Trade policies and international commerce
+    - Economic indicators and forecasts
+    
+    REGIONAL FOCUS:
+    - World: Global market movements, international trade, major economic policy, multinational corporate developments
+    - India: Indian market developments, RBI policies, Indian corporate news, economic indicators, trade developments  
+    - Ahmedabad: Gujarat economic developments, local business news, industrial sector updates, regional economic impact
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant economic stories across regions
+    - Focus on market-moving and economically significant news
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 economic news stories with:
+    - Headline with economic context
+    - Summary emphasizing market/economic implications
+    - Source name and financial credibility rating
+    - URL for content extraction
+    - Regional economic relevance (World/India/Ahmedabad)
+    - Economic impact score (1-10)
+    - Economic category (Markets/Policy/Corporate/Trade)
+  agent: economy_news_specialist
+  output_file: "output/economy_news_search_results.md"
+
+economy_news_content:
+  description: >
+    Extract detailed content from promising economic news URLs found from search task.
+    
+    EXTRACTION PRIORITIES:
+    - Central bank announcements and monetary policy statements
+    - Major corporate earnings and guidance updates
+    - Economic data releases and analysis
+    - Trade agreement developments and market reactions
+    
+    SUCCESS CRITERIA:
+    - Extract detailed economic content from 2-3 priority articles
+    - Focus on stories with greatest market significance  
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed economic content for 2-3 priority stories including:
+    - Full article text with key economic data and analysis
+    - Financial metrics, market data, and economic indicators
+    - Corporate financial information and market impact
+    - Economic implications and expert analysis
+    - Source credibility for economic information
+  agent: economy_news_specialist
+  context: [economy_news_search]
+  output_file: "output/economy_news_content_extracted.md"
+
+economy_news_verification:
+  description: >
+    Rigorously verify all collected economic news for accuracy, reliability, and credibility while filtering out economic misinformation.
+    
+    ECONOMIC VERIFICATION PROCESS:
+    - Cross-reference financial data through official market sources
+    - Verify corporate information through company filings and announcements
+    - Check economic indicators against official statistical sources
+    - Confirm policy information through central bank and government sources
+    - Validate market data through multiple financial data providers
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all economic claims and financial data
+    - Identify any questionable economic information
+    - Complete verification within 5 minutes
+  expected_output: >
+    Economic verification report including:
+    - Financial data accuracy verification
+    - Economic source credibility assessment
+    - Market impact validation
+    - Economic confidence rating (1-10)
+    - Recommendations for economic story inclusion
+  agent: economy_news_specialist  
+  context: [economy_news_search, economy_news_content]
+  output_file: "output/economy_news_verification_report.md"
+
+# TECHNOLOGY NEWS TASKS (3-step workflow) 
+technology_news_search:
+  description: >
+    Find high-quality technology news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Artificial Intelligence and Machine Learning developments
+    - Cybersecurity threats, solutions, and policy
+    - Major technology company announcements and products
+    - Breakthrough innovations and research developments
+    - Digital transformation and tech adoption
+    
+    REGIONAL FOCUS:
+    - World: Global tech giants, breakthrough innovations, international tech policy, major product launches
+    - India: Indian tech sector, startup developments, digital initiatives, tech policy, IT services industry
+    - Ahmedabad: Gujarat tech initiatives, local tech companies, digital infrastructure, tech education developments
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant technology stories across regions
+    - Focus on innovation-significant and industry-impacting developments
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 technology news stories with:
+    - Headline with technology context
+    - Summary emphasizing innovation and tech implications
+    - Source name and tech industry credibility rating
+    - URL for content extraction
+    - Regional tech relevance (World/India/Ahmedabad)
+    - Innovation impact score (1-10)
+    - Technology category (AI/Cybersecurity/Hardware/Software/Digital Transform)
+  agent: technology_news_specialist
+  output_file: "output/technology_news_search_results.md"
+
+technology_news_content:
+  description: >
+    Extract detailed content from promising technology news URLs found from search task.
+    
+    EXTRACTION PRIORITIES:
+    - Company press releases and product announcements
+    - Research institution publications and breakthrough announcements
+    - Tech industry analysis and expert commentary
+    - Government tech policy documents and initiatives
+    
+    SUCCESS CRITERIA:
+    - Extract detailed technical content from 2-3 priority articles
+    - Focus on stories with greatest innovation significance
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed technology content for 2-3 priority stories including:
+    - Full technical details and specifications
+    - Innovation implications and industry impact
+    - Expert quotes and technical analysis
+    - Implementation timelines and adoption potential
+    - Technical source credibility assessment
+  agent: technology_news_specialist
+  context: [technology_news_search]
+  output_file: "output/technology_news_content_extracted.md"
+
+technology_news_verification:
+  description: >
+    Rigorously verify all collected technology news for accuracy, reliability, and credibility while filtering out tech misinformation.
+    
+    TECHNOLOGY VERIFICATION PROCESS:
+    - Cross-reference technical claims through expert sources and research papers
+    - Verify product announcements through official company channels
+    - Check innovation claims through patent databases and research institutions
+    - Confirm technical specifications through authoritative tech sources
+    - Validate tech industry impact through multiple expert analyses
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all technical claims and specifications
+    - Identify any questionable or overstated technology information
+    - Complete verification within 5 minutes
+  expected_output: >
+    Technology verification report including:
+    - Technical accuracy verification results
+    - Innovation credibility assessment
+    - Technology source reliability evaluation  
+    - Technical confidence rating (1-10)
+    - Recommendations for technology story prominence
+  agent: technology_news_specialist
+  context: [technology_news_search, technology_news_content]
+  output_file: "output/technology_news_verification_report.md"
+
+# SCIENCE NEWS TASKS (3-step workflow)
+science_news_search:
+  description: >
+    Find high-quality science news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Medical and health research breakthroughs
+    - Environmental and climate science developments
+    - Space exploration and astronomy discoveries
+    - Physics, chemistry, and biology advances
+    - Research institution announcements and academic publications
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant scientific stories across regions
+    - Focus on peer-reviewed research and credible scientific developments
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 science news stories with:
+    - Headline with scientific context
+    - Summary emphasizing research significance
+    - Source name and scientific credibility rating
+    - Regional science relevance (World/India/Ahmedabad)
+    - Scientific impact score (1-10)
+    - Research category (Medical/Environmental/Space/Physics/Biology)
+  agent: science_news_specialist
+  output_file: "output/science_news_search_results.md"
+
+science_news_content:
+  description: >
+    Extract detailed content from promising science news URLs found from search task.
+    
+    EXTRACTION PRIORITIES:
+    - Peer-reviewed journal publications and abstracts
+    - University and research institution press releases
+    - Scientific conference presentations and findings
+    - Government research agency announcements
+    
+    SUCCESS CRITERIA:
+    - Extract detailed scientific content from 2-3 priority articles
+    - Focus on stories with greatest research significance
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed scientific content for 2-3 priority stories including:
+    - Full research details and methodology
+    - Scientific findings and implications
+    - Researcher credentials and institutional affiliations
+    - Research validation and peer review status
+    - Scientific source credibility assessment
+  agent: science_news_specialist
+  context: [science_news_search]
+  output_file: "output/science_news_content_extracted.md"
+
+science_news_verification:
+  description: >
+    Rigorously verify all collected science news for accuracy, reliability, and credibility while filtering out scientific misinformation.
+    
+    SCIENTIFIC VERIFICATION PROCESS:
+    - Cross-reference research findings through peer-reviewed publications
+    - Verify researcher credentials and institutional affiliations
+    - Check scientific methodology and statistical validity
+    - Confirm research funding and potential conflicts of interest
+    - Validate scientific claims through expert consensus and replication
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all scientific claims and research findings
+    - Identify any questionable or unverified scientific information
+    - Complete verification within 5 minutes
+  expected_output: >
+    Scientific verification report including:
+    - Research accuracy verification results
+    - Peer review and publication status
+    - Researcher credibility assessment
+    - Scientific consensus evaluation
+    - Scientific confidence rating (1-10)
+    - Recommendations for science story prominence
+  agent: science_news_specialist
+  context: [science_news_search, science_news_content]  
+  output_file: "output/science_news_verification_report.md"
+
+# STOCK MARKET NEWS TASKS (3-step workflow)
+stock_market_news_search:
+  description: >
+    Find high-quality stock market news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Major stock movements and market trends
+    - Corporate earnings releases and guidance updates
+    - IPOs, mergers, acquisitions, and corporate actions
+    - Market sentiment shifts and institutional investor activities
+    - Regulatory changes affecting stock markets
+    
+    REGIONAL FOCUS:
+    - World: Major global exchanges (NYSE, NASDAQ, LSE), international market trends, global corporate developments
+    - India: NSE/BSE developments, Indian corporate earnings, market regulations, institutional activity
+    - Ahmedabad: Gujarat-based company developments, regional stock exchange activity, local market impact
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant market stories across regions
+    - Focus on market-moving and trading-significant news
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 stock market news stories with:
+    - Headline with market context
+    - Summary emphasizing market implications
+    - Source name and financial market credibility rating
+    - Regional market relevance (World/India/Ahmedabad)
+    - Market impact score (1-10)
+    - Market category (Earnings/M&A/Trends/Regulatory/IPO)
+  agent: stock_market_news_specialist
+  output_file: "output/stock_market_news_search_results.md"
+
+stock_market_news_content:
+  description: >
+    Extract detailed content from promising stock market news URLs found from search task.
+    
+    SUCCESS CRITERIA:
+    - Extract detailed market content from 2-3 priority articles
+    - Focus on stories with greatest market significance
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed stock market content for 2-3 priority stories including:
+    - Full market analysis and financial details
+    - Stock price movements and trading volumes
+    - Corporate financial metrics and guidance
+    - Market reactions and analyst commentary
+    - Financial source credibility assessment
+  agent: stock_market_news_specialist
+  context: [stock_market_news_search]
+  output_file: "output/stock_market_news_content_extracted.md"
+
+stock_market_news_verification:
+  description: >
+    Rigorously verify all collected stock market news for accuracy, reliability, and credibility while filtering out financial misinformation.
+    
+    FINANCIAL VERIFICATION PROCESS:
+    - Cross-reference market data through multiple financial data providers
+    - Verify corporate information through official SEC filings and company announcements
+    - Check financial metrics through authoritative financial databases
+    - Confirm market trends through technical analysis and institutional sources
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all financial claims and market data
+    - Complete verification within 5 minutes
+  expected_output: >
+    Stock market verification report including:
+    - Financial data accuracy verification
+    - Market source credibility assessment
+    - Trading data validation results
+    - Financial confidence rating (1-10)
+    - Recommendations for market story prominence
+  agent: stock_market_news_specialist
+  context: [stock_market_news_search, stock_market_news_content]
+  output_file: "output/stock_market_news_verification_report.md"
+
+# ENERGY NEWS TASKS (3-step workflow)
+energy_news_search:
+  description: >
+    Find high-quality energy news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Oil, gas, and commodity market developments
+    - Renewable energy projects and policy initiatives
+    - Energy infrastructure developments and grid modernization
+    - Environmental regulations and sustainability initiatives
+    - Energy company strategic developments and earnings
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant energy stories across regions
+    - Focus on energy policy and market-significant developments
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 energy news stories with:
+    - Headline with energy sector context
+    - Summary emphasizing energy implications
+    - Regional energy relevance (World/India/Ahmedabad)
+    - Energy impact score (1-10)
+    - Energy category (Oil&Gas/Renewable/Infrastructure/Policy/Corporate)
+  agent: energy_news_specialist
+  output_file: "output/energy_news_search_results.md"
+
+energy_news_content:
+  description: >
+    Extract detailed content from promising energy news URLs found from search task.
+    
+    SUCCESS CRITERIA:
+    - Extract detailed energy content from 2-3 priority articles
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed energy content for 2-3 priority stories including:
+    - Full energy analysis and sector implications
+    - Energy policy details and market impacts
+    - Corporate energy strategies and financial performance
+    - Environmental and sustainability aspects
+  agent: energy_news_specialist
+  context: [energy_news_search]
+  output_file: "output/energy_news_content_extracted.md"
+
+energy_news_verification:
+  description: >
+    Rigorously verify all collected energy news for accuracy, reliability, and credibility while filtering out energy sector misinformation.
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all energy claims and sector data
+    - Complete verification within 5 minutes
+  expected_output: >
+    Energy verification report including:
+    - Energy data accuracy verification
+    - Energy source credibility assessment  
+    - Energy confidence rating (1-10)
+    - Recommendations for energy story prominence
+  agent: energy_news_specialist
+  context: [energy_news_search, energy_news_content]
+  output_file: "output/energy_news_verification_report.md"
+
+# INFRASTRUCTURE NEWS TASKS (3-step workflow)
+infrastructure_news_search:
+  description: >
+    Find high-quality infrastructure news articles for today ({date}) efficiently using search-only approach in regions: World, India and Ahmedabad.
+    
+    SEARCH TARGETS:
+    - Transportation projects (railways, highways, aviation)
+    - Urban development and smart city initiatives
+    - Utilities and public services infrastructure
+    - Digital infrastructure and telecommunications
+    - Public-private partnership developments
+    
+    SUCCESS CRITERIA:
+    - Find 4-6 significant infrastructure stories across regions
+    - Complete within 5 minutes
+  expected_output: >
+    List of 4-6 infrastructure news stories with:
+    - Headline with infrastructure context
+    - Regional infrastructure relevance (World/India/Ahmedabad)
+    - Infrastructure impact score (1-10)
+    - Infrastructure category (Transport/Urban/Digital/Utilities/PPP)
+  agent: infrastructure_news_specialist
+  output_file: "output/infrastructure_news_search_results.md"
+
+infrastructure_news_content:
+  description: >
+    Extract detailed content from promising infrastructure news URLs found from search task.
+    
+    SUCCESS CRITERIA:
+    - Extract detailed infrastructure content from 2-3 priority articles
+    - Complete within 5 minutes
+  expected_output: >
+    Detailed infrastructure content for 2-3 priority stories including:
+    - Full project details and development timelines
+    - Infrastructure investment and financing information
+    - Development implications and economic impact
+    - Infrastructure source credibility assessment
+  agent: infrastructure_news_specialist
+  context: [infrastructure_news_search]
+  output_file: "output/infrastructure_news_content_extracted.md"
+
+infrastructure_news_verification:
+  description: >
+    Rigorously verify all collected infrastructure news for accuracy, reliability, and credibility while filtering out infrastructure misinformation.
+    
+    SUCCESS CRITERIA:
+    - Verify accuracy of all infrastructure claims and project data
+    - Complete verification within 5 minutes
+  expected_output: >
+    Infrastructure verification report including:
+    - Project data accuracy verification
+    - Infrastructure confidence rating (1-10)
+    - Recommendations for infrastructure story prominence
+  agent: infrastructure_news_specialist
+  context: [infrastructure_news_search, infrastructure_news_content]
+  output_file: "output/infrastructure_news_verification_report.md"
+
+# FINAL REPORTING TASK
+final_news_report:
+  description: >
+    Organize all verified news into a structured, professional HTML report with clear categorization and reliability indicators.
+    
+    REPORT ORGANIZATION:
+    1. Executive Summary - Top stories across all categories
+    2. Regional Sections:
+       - World News (Global developments)
+       - India News (National developments)  
+       - Ahmedabad News (Local developments)
+    3. Category Sections:
+       - Political News
+       - Economy News
+       - Technology News
+       - Science News  
+       - Stock Market News
+       - Energy News
+       - Infrastructure News
+    4. Quality Indicators:
+       - Verification status for each story
+       - Source credibility ratings
+       - Reliability badges
+    
+    HTML DESIGN REQUIREMENTS:
+    - Professional, clean layout with responsive design
+    - Color-coded reliability indicators
+    - Easy navigation between categories and regions
+    - News cards with hover effects and clear typography
+    - Source attribution and methodology footer
+    
+    SUCCESS CRITERIA:
+    - Create comprehensive HTML report incorporating all specialist findings
+    - Ensure professional presentation with reliability indicators
+    - Complete within 5 minutes
+  expected_output: >
+    Professional HTML news report including:
+    - Executive Summary with key highlights from all categories
+    - Regional news organization (World/India/Ahmedabad)
+    - Category-specific news sections with specialist analysis
+    - Quality indicators and verification status for all stories
+    - Professional formatting with source attribution
+    - Navigation and user-friendly interface elements
+  agent: news_reporting_specialist
+  context: [
+    political_news_verification, 
+    # economy_news_verification, 
+    # technology_news_verification, 
+    # science_news_verification, 
+    # stock_market_news_verification, 
+    # energy_news_verification, 
+    # infrastructure_news_verification
+  ]
+  output_file: "output/final_news_report.html"
