@@ -599,11 +599,11 @@ final_news_report:
   agent: news_reporting_specialist
   context: [
     political_news_verification, 
-    # economy_news_verification, 
-    # technology_news_verification, 
-    # science_news_verification, 
-    # stock_market_news_verification, 
-    # energy_news_verification, 
-    # infrastructure_news_verification
+    economy_news_verification, 
+    technology_news_verification, 
+    science_news_verification, 
+    stock_market_news_verification, 
+    energy_news_verification, 
+    infrastructure_news_verification
   ]
   output_file: "output/final_news_report.html"
