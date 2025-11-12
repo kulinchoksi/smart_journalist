@@ -21,7 +21,22 @@ def timeout_handler(signum, frame):
 
 def main():
     """Main entry point for the Smart Journalist application."""
+    import logging
+    import traceback
+
+    # Setup logging
+    # logging.basicConfig(
+    #     level=logging.INFO,
+    #     format='%(asctime)s - %(levelname)s - %(message)s',
+    #     handlers=[
+    #         logging.FileHandler(f'logs/app_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
+    #         logging.StreamHandler()
+    #     ]
+    # )
     
+    # Enable debug flags
+    os.environ['LITELLM_DEBUG'] = 'true'
+
     # Load environment variables
     load_dotenv()
 
@@ -46,7 +61,7 @@ def main():
             print(f"   - {var}")
         print("\nPlease check your .env file and ensure all variables are set.")
         sys.exit(1)
-
+    
     try:
         # Initialize the crew
         crew_instance = SmartJournalistCrew()
@@ -72,22 +87,25 @@ def main():
         # for name, agent in agents.items():
         #     print(f"Agent '{name}': role={agent.role}, LLM={getattr(agent.llm, 'model', None)}")
 
-        import traceback
         try:
             # Set 25 minute timeout
             signal.signal(signal.SIGALRM, timeout_handler)
             signal.alarm(1500)  # 25 minutes
 
             # Execute the crew
-            result = crew_instance.crew().kickoff(inputs=inputs)
+            result, html_path = crew_instance.kickoff_and_render(inputs=inputs)
 
             signal.alarm(0)  # Cancel timeout
 
             print("\n✅ News processing completed successfully!")
-            print(f"📄 Report saved to: output/news_report_{current_date}.html")
+            print(f"📄 JSON Output: output/final_news_report.json")
+            print(f"🌐 HTML Report: {html_path}")
             print("=" * 60)
 
             return result
+        except KeyboardInterrupt:
+            print("\n⚠️ Execution interrupted by user")
+            print("📝 Check logs/ directory for partial execution logs")
         except TimeoutException:
             print("⏰ TIMEOUT: Crew took too long, stopping execution")
             print("💡 Try simplifying your task or reducing scope")
@@ -99,6 +117,7 @@ def main():
 
     except Exception as e:
         print(f"❌ Error occurred: {str(e)}")
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":

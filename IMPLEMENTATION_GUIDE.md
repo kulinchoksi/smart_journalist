@@ -1,309 +1,316 @@
-# Smart and Wise Journalist - Complete Implementation Guide
+# Implementation Guide: Pydantic Structured Output + Jinja2 Templates
 
-## 🎯 Project Overview
-This is a comprehensive CrewAI-based news intelligence system that automatically:
-- Gathers news from multiple reliable sources
-- Verifies information through fact-checking 
-- Organizes content by region (Global/India/Ahmedabad) and category
-- Generates professional HTML reports with reliability indicators
-- Operates with high accuracy using Google Vertex AI Gemini-2.5-pro
+## 📋 Overview
 
-## 📁 Complete Project Structure
+This implementation provides **100% consistent HTML output** by separating data generation from presentation using:
+- **Pydantic Models** for structured data validation
+- **Jinja2 Templates** for consistent HTML rendering
+
+## 🗂️ File Structure
+
 ```
-smart_journalist/
-├── .env                              # Environment configuration
-├── .gitignore                        # Git ignore rules
-├── LICENSE                           # MIT license
-├── README.md                         # Project documentation
-├── main.py                          # Application entry point
-├── pyproject.toml                   # Python project config
-├── requirements.txt                 # Dependencies
-├── 
-├── src/smart_journalist/            # Main application code
-│   ├── __init__.py
-│   ├── crew.py                      # CrewAI orchestration
-│   ├── tools/                       # Custom tools
-│   │   ├── __init__.py
-│   │   ├── news_search_tool.py      # News search via SerperDev
-│   │   └── web_scraper_tool.py      # Web scraping via Firecrawl
-│   └── templates/
-│       └── news_report.html         # HTML report template
-├── 
-├── config/                          # Configuration files
-│   └── logging.conf                 # Logging configuration
-├── 
-├── scripts/                         # Automation scripts
-│   ├── setup.sh                     # Environment setup
-│   └── run_daily.sh                 # Daily execution script
-├── 
-├── docker/                          # Containerization
-│   ├── Dockerfile                   # Docker image
-│   └── docker-compose.yml           # Multi-container setup
-├── 
-├── deployment/                      # Production deployment
-│   └── deploy.sh                    # Deployment automation
-├── 
-├── tests/                           # Test cases
-│   ├── __init__.py
-│   └── test_tools.py                # Tool testing
-├── 
-├── examples/                        # Sample outputs
-│   └── sample_output.html           # Example report
-├── 
-└── output/                          # Generated reports
-    └── .gitkeep
+src/smart_journalist/
+├── models.py                      # ← NEW: Pydantic data models
+├── renderer.py                    # ← NEW: HTML renderer with Jinja2
+├── crew.py                        # ← UPDATE: Add structured output
+├── config/
+│   ├── agents.yaml               # ← NO CHANGE
+│   └── tasks.yaml                # ← UPDATE: final_news_report task
+├── templates/
+│   └── news_report_template.html # ← NEW: Jinja2 HTML template
+└── output/
+    ├── final_news_report.json    # ← NEW: Structured JSON output
+    └── final_news_report.html    # ← Generated HTML
 ```
 
-## 🚀 Quick Start Guide
+## 🚀 Implementation Steps
 
-### Option 1: Automated Setup (Recommended)
+### Step 1: Add New Files
+
+**1.1 Create `src/smart_journalist/models.py`**
+- Copy content from [33] models.py
+- Defines Pydantic schemas for NewsReport, NewsStory, etc.
+
+**1.2 Create `src/smart_journalist/renderer.py`**
+- Copy content from [35] renderer.py
+- Handles Jinja2 template rendering
+
+**1.3 Create `src/smart_journalist/templates/news_report_template.html`**
+- Copy content from [34] news_report_template.html
+- Professional HTML template based on your existing design
+- Includes: Source links, metadata footer, regional tabs
+
+### Step 2: Update Configuration
+
+**2.1 Update `src/smart_journalist/config/tasks.yaml`**
+
+Replace the `final_news_report` task section with:
+
+```yaml
+final_news_report:
+  description: >
+    Organize all verified news into a STRUCTURED JSON format.
+    
+    CRITICAL: Output data in Pydantic schema format. Do NOT generate HTML directly.
+    
+    DATA REQUIREMENTS:
+    1. Executive Summary (3-5 paragraphs)
+    2. Featured Stories (5-10 top stories with full details including source URLs)
+    3. Regional Organization (World/India/Ahmedabad)
+       - Each region has categories with stories
+       - Each story needs: headline, summary, source, source_url, category, region, 
+         verification_status, confidence_score, timestamp
+    4. Metadata (statistics, models used, execution time)
+    
+    Extract source URLs from verification reports and search results.
+    
+  expected_output: >
+    Complete NewsReport JSON object with all required fields.
+    See updated_tasks_config.yaml for detailed structure.
+    
+  agent: news_reporting_specialist
+  context: [
+    political_news_verification, 
+    economy_news_verification, 
+    technology_news_verification, 
+    science_news_verification, 
+    stock_market_news_verification, 
+    energy_news_verification, 
+    infrastructure_news_verification
+  ]
+  output_pydantic: NewsReport
+  output_file: "output/final_news_report.json"
+```
+
+**Full task definition available in [36] updated_tasks_config.yaml**
+
+### Step 3: Update crew.py
+
+**3.1 Add imports at the top:**
+```python
+import time
+from models import NewsReport
+from renderer import NewsReportRenderer
+```
+
+**3.2 Update `__init__` method:**
+```python
+def __init__(self):
+    # ... existing code ...
+    
+    # Add renderer initialization
+    self.renderer = NewsReportRenderer(template_dir="src/smart_journalist/templates")
+    self.start_time = None
+```
+
+**3.3 Update `final_news_report` task:**
+```python
+@task
+def final_news_report(self) -> Task:
+    """Creates the final news report task with structured output."""
+    return Task(
+        config=self.tasks_config['final_news_report'],
+        agent=self.news_reporting_specialist(),
+        output_pydantic=NewsReport,  # ← Add this line
+        output_file="output/final_news_report.json"
+    )
+```
+
+**3.4 Update `crew` method:**
+```python
+@crew
+def crew(self) -> Crew:
+    """Create and return the configured crew."""
+    self.start_time = time.time()  # ← Add this line
+    
+    # ... rest of existing code ...
+```
+
+**3.5 Add new method `kickoff_and_render`:**
+```python
+def kickoff_and_render(self) -> tuple[Any, str]:
+    """Execute crew and render HTML report."""
+    print("🚀 Starting Smart Journalist Crew execution...")
+    
+    try:
+        # Execute crew
+        crew_instance = self.crew()
+        result = crew_instance.kickoff()
+        
+        # Calculate execution time
+        execution_time = int(time.time() - self.start_time) if self.start_time else None
+        
+        # Extract structured output
+        if hasattr(result, 'pydantic'):
+            report_data = result.pydantic
+        elif isinstance(result, NewsReport):
+            report_data = result
+        else:
+            report_data = NewsReport.model_validate_json(result)
+        
+        # Update metadata
+        if execution_time:
+            report_data.metadata.execution_time_seconds = execution_time
+        
+        print(f"✅ Collected {report_data.metadata.total_stories_collected} stories")
+        
+        # Render to HTML
+        output_path = f"output/final_news_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+        self.renderer.render(report_data, output_file=output_path)
+        
+        print(f"✅ HTML report: {output_path}")
+        return result, output_path
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        raise
+```
+
+**3.6 Update `main()` function:**
+```python
+def main():
+    # ... existing setup ...
+    
+    try:
+        crew_instance = SmartJournalistCrew()
+        result, html_path = crew_instance.kickoff_and_render()  # ← Changed
+        
+        print(f"📄 JSON: output/final_news_report.json")
+        print(f"🌐 HTML: {html_path}")
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+```
+
+**Complete updated crew.py available in [37] crew_updated.py**
+
+### Step 4: Update Dependencies
+
+**Add to `requirements.txt`:**
+```txt
+# Existing dependencies
+crewai>=1.3.0
+crewai-tools>=1.3.0
+# ... other existing dependencies ...
+
+# NEW: Add these
+pydantic>=2.5.0
+jinja2>=3.1.2
+```
+
+### Step 5: Test Implementation
+
+**5.1 Test with sample data:**
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd smart_journalist
+# Run the sample in renderer.py
+cd src/smart_journalist
+python renderer.py
+```
 
-# Run automated setup
-chmod +x scripts/setup.sh
-./scripts/setup.sh
-
-# Configure environment variables
-nano .env  # Add your API keys
-
-# Run the application
-source venv/bin/activate
+**5.2 Run full application:**
+```bash
 python main.py
 ```
 
-### Option 2: Manual Setup
-```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
+## ✅ Expected Results
 
-# Install dependencies
-pip install -r requirements.txt
+### Before (Current):
+- ❌ Different HTML layout each execution
+- ❌ Inconsistent styling
+- ❌ Missing source links
+- ❌ No metadata footer
 
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
+### After (With This Implementation):
+- ✅ **100% Consistent HTML layout** every time
+- ✅ Professional styling with tabs and cards
+- ✅ **Clickable source links** on headlines and source names
+- ✅ **Comprehensive metadata footer** with statistics
+- ✅ Color-coded verification badges
+- ✅ Confidence score indicators
+- ✅ Responsive design
+- ✅ Regional navigation tabs
 
-# Run application
-python main.py
+## 📊 Output Files
+
+**JSON Output (`output/final_news_report.json`):**
+```json
+{
+  "title": "Daily News Report",
+  "generation_date": "2025-11-10",
+  "executive_summary": "...",
+  "featured_stories": [...],
+  "world_news": {...},
+  "india_news": {...},
+  "ahmedabad_news": {...},
+  "metadata": {
+    "generation_date": "2025-11-10 21:30:00",
+    "total_stories_collected": 42,
+    "total_stories_verified": 38,
+    "llm_model_used": "vertex_ai/gemini-1.5-flash",
+    "verification_model_used": "vertex_ai/gemini-2.5-pro"
+  }
+}
 ```
 
-### Option 3: Docker Setup
-```bash
-# Configure environment
-echo "GOOGLE_CLOUD_PROJECT=your-project" > .env
-echo "SERPER_API_KEY=your-key" >> .env
-echo "FIRECRAWL_API_KEY=your-key" >> .env
+**HTML Output (`output/final_news_report_YYYYMMDD_HHMMSS.html`):**
+- Professional news report with consistent layout
+- Regional tabs (World, India, Ahmedabad)
+- Category sections within each region
+- Clickable source links
+- Verification badges
+- Metadata footer
 
-# Run with Docker Compose
-cd docker/
-docker-compose up -d
+## 🔧 Customization
 
-# View logs
-docker-compose logs -f smart-journalist
-```
+### Modify HTML Template
+Edit `src/smart_journalist/templates/news_report_template.html`:
+- Change colors, fonts, layout
+- Add new sections
+- Modify styling
 
-## 🔧 Configuration Requirements
+### Modify Data Schema
+Edit `src/smart_journalist/models.py`:
+- Add new fields to NewsStory
+- Add new categories
+- Modify metadata structure
 
-### Required API Keys
-1. **Google Cloud Vertex AI**
-   - Create service account in Google Cloud Console
-   - Download JSON credentials file
-   - Set `GOOGLE_APPLICATION_CREDENTIALS` path
+### Modify Rendering Logic
+Edit `src/smart_journalist/renderer.py`:
+- Add custom Jinja2 filters
+- Add data preprocessing
+- Add multiple template support
 
-2. **SerperDev API**
-   - Sign up at [serper.dev](https://serper.dev)
-   - Get API key from dashboard
-   - Set `SERPER_API_KEY`
+## ⚠️ Important Notes
 
-3. **Firecrawl API**
-   - Sign up at [firecrawl.dev](https://firecrawl.dev)
-   - Get API key from dashboard  
-   - Set `FIRECRAWL_API_KEY`
+1. **LLM Must Follow Schema**: The reporting agent must output data matching the Pydantic schema
+2. **Source URLs Required**: Verification tasks must preserve source URLs
+3. **Template Location**: Template must be in `src/smart_journalist/templates/`
+4. **Output Directory**: Ensure `output/` and `templates/` directories exist
 
-### Environment Variables (.env)
-```env
-# Google Vertex AI
-GOOGLE_CLOUD_PROJECT=your-project-id
-GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
-GOOGLE_CLOUD_LOCATION=us-central1
+## 🐛 Troubleshooting
 
-# API Keys
-SERPER_API_KEY=your-serper-api-key
-FIRECRAWL_API_KEY=your-firecrawl-api-key
+**Problem**: "Template not found"
+- **Solution**: Check `template_dir` path in renderer initialization
 
-# Model Configuration
-TEMPERATURE=0.0
-MODEL_NAME=gemini-2.5-pro
-```
+**Problem**: Pydantic validation error
+- **Solution**: Check that LLM output matches NewsReport schema exactly
 
-## 🎯 Key Features & Benefits
+**Problem**: Missing source URLs
+- **Solution**: Update verification tasks to extract and preserve URLs
 
-### Advanced Agent Architecture
-- **Specialized Agents**: Each agent focuses on specific regions/expertise
-- **Quality Assurance**: Dedicated fact-checking and verification
-- **Smart Collaboration**: Agents work together sequentially with context sharing
+**Problem**: JSON parsing error
+- **Solution**: Check `output_pydantic=NewsReport` is set in task
 
-### Comprehensive News Coverage
-- **7 Categories**: Geopolitical, Economy, Technology, Science, Stock Market, Energy, Infrastructure  
-- **3 Regions**: Global (international), India (national), Ahmedabad (local)
-- **Real-time Sources**: Latest news from credible publishers
+## 📚 Benefits Summary
 
-### Professional Output
-- **HTML Reports**: Clean, responsive design with professional layout
-- **Reliability Indicators**: Color-coded verification status
-- **Source Attribution**: Direct links to original articles
-- **Executive Summary**: Statistics and coverage overview
+1. ✅ **100% Consistent** - Same HTML structure every execution
+2. ✅ **Maintainable** - Separate data from presentation
+3. ✅ **Validated** - Pydantic ensures data quality
+4. ✅ **Flexible** - Easy to add new formats (PDF, email, etc.)
+5. ✅ **Professional** - Clean, modern HTML design
+6. ✅ **Source Attribution** - All links properly included
+7. ✅ **Metadata Tracking** - Comprehensive execution statistics
 
-### Production Ready
-- **Error Handling**: Comprehensive error management and logging
-- **Scalable Architecture**: Modular design for easy extension
-- **Automated Deployment**: Scripts for production setup
-- **Monitoring**: Built-in logging and performance tracking
+## 🎉 Result
 
-## 📊 Expected Performance
-
-### Execution Metrics
-- **Processing Time**: 5-15 minutes per run
-- **Articles Processed**: 40-80 articles typically
-- **Verification Rate**: 85-95% successful fact-checking
-- **Source Coverage**: 15-25 unique reliable sources
-
-### Output Quality
-- **Accuracy**: High precision with Gemini-2.5-pro at temperature 0.0
-- **Reliability**: Multi-source verification for all claims
-- **Completeness**: Comprehensive coverage across all categories
-- **Freshness**: Current day news with timestamps
-
-## 🔄 Automation Options
-
-### Daily Scheduling
-```bash
-# Linux/Mac cron (daily at 8 AM)
-0 8 * * * cd /path/to/smart_journalist && ./scripts/run_daily.sh
-
-# Windows Task Scheduler
-# Create scheduled task to run scripts/run_daily.sh daily
-```
-
-### Continuous Integration
-- GitHub Actions workflows for automated testing
-- Docker Hub integration for container deployment
-- Automated deployment pipelines
-
-### Monitoring & Alerts
-- Log file monitoring for errors
-- Email/webhook notifications on completion/failure
-- Performance metrics tracking
-
-## 🏢 Production Deployment
-
-### System Requirements
-- **OS**: Linux (Ubuntu 20.04+ recommended)
-- **Python**: 3.9+ 
-- **Memory**: 2GB RAM minimum, 4GB recommended
-- **Storage**: 10GB for application and logs
-- **Network**: Reliable internet for API access
-
-### Deployment Steps
-```bash
-# Production deployment
-chmod +x deployment/deploy.sh
-sudo ./deployment/deploy.sh production
-
-# Configure environment
-sudo nano /opt/smart-journalist/.env
-
-# Start services
-sudo systemctl start smart-journalist
-sudo systemctl enable smart-journalist
-
-# Monitor logs
-sudo journalctl -u smart-journalist -f
-```
-
-### Security Considerations
-- API keys stored securely in environment variables
-- Service account credentials with minimal required permissions
-- Regular security updates for dependencies
-- Log rotation and cleanup policies
-
-## 🧪 Testing & Quality Assurance
-
-### Running Tests
-```bash
-# Run unit tests
-python -m pytest tests/ -v
-
-# Run with coverage
-python -m pytest tests/ --cov=src/smart_journalist --cov-report=html
-
-# Test individual components
-python -m pytest tests/test_tools.py -v
-```
-
-### Quality Checks
-- Comprehensive error handling in all components
-- Input validation and sanitization
-- Output format verification
-- Source reliability validation
-
-## 📈 Monitoring & Maintenance
-
-### Log Monitoring
-```bash
-# Application logs
-tail -f logs/smart_journalist.log
-
-# Cron execution logs
-tail -f logs/cron.log
-
-# System service logs
-sudo journalctl -u smart-journalist -f
-```
-
-### Performance Optimization
-- Regular dependency updates
-- API rate limit monitoring
-- Cache optimization for repeated queries
-- Database cleanup and maintenance
-
-### Troubleshooting
-- Detailed error messages with resolution steps
-- API connectivity testing utilities
-- Configuration validation scripts
-- Debug mode for detailed execution tracking
-
-## 🔮 Future Enhancements
-
-### Planned Features
-- **Multi-language Support**: Hindi, Gujarati content processing
-- **Real-time Updates**: WebSocket-based live news feeds  
-- **Advanced Analytics**: Sentiment analysis and trend detection
-- **Mobile App**: React Native companion application
-- **API Gateway**: RESTful API for external integrations
-
-### Customization Options
-- **Additional Regions**: Easy addition of new geographic areas
-- **Custom Categories**: Industry-specific news categories
-- **Source Integration**: New news providers and APIs
-- **Output Formats**: PDF, email newsletters, social media posts
-
-## 💡 Best Practices
-
-### Operational Excellence
-- Regular backup of configuration and logs
-- API key rotation and security audits  
-- Performance monitoring and alerting
-- Documentation updates with changes
-
-### Development Guidelines
-- Follow Python PEP 8 style guidelines
-- Comprehensive unit test coverage
-- Git workflow with feature branches
-- Code reviews for all changes
-
-This implementation provides a robust, production-ready news intelligence system that delivers high-quality, verified news reports with professional presentation and reliable automation capabilities.
+Every execution produces **identical HTML layout** with only the content changing - exactly what you wanted!

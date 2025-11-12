@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report.title }} - {{ report.generation_date }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .report-date {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .executive-summary {
+            background-color: #ecf0f1;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 5px solid #3498db;
+        }
+
+        .executive-summary h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .executive-summary p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: #34495e;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .news-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .news-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .news-card h3 a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .news-card h3 a:hover {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        .news-summary {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .news-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .source {
+            font-weight: 600;
+        }
+
+        .source a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .source a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-verified {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .badge-partial {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .badge-developing {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .badge-unverified {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .confidence {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .confidence-bar {
+            width: 100px;
+            height: 8px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+            transition: width 0.3s ease;
+        }
+
+        .key-points {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .key-points li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .no-stories {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .featured-stories {
+            background-color: #fff9e6;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .featured-stories h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .metadata-footer {
+            margin-top: 60px;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-top: 3px solid #2c3e50;
+        }
+
+        .metadata-footer h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metadata-item {
+            padding: 15px;
+            background-color: white;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .metadata-value {
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background-color: transparent;
+            color: #7f8c8d;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            color: #2c3e50;
+            background-color: #ecf0f1;
+        }
+
+        .tab-button.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ report.title }}</h1>
+            <p class="report-date">{{ report.generation_date }}</p>
+        </header>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>📋 Executive Summary</h2>
+            <div>{{ report.executive_summary | safe }}</div>
+        </div>
+
+        <!-- Featured Stories -->
+        {% if report.featured_stories %}
+        <div class="featured-stories">
+            <h2>⭐ Featured Stories</h2>
+            {% for story in report.featured_stories %}
+            <div class="news-card">
+                <h3>
+                    {% if story.source_url %}
+                    <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.headline }}</a>
+                    {% else %}
+                    {{ story.headline }}
+                    {% endif %}
+                </h3>
+                <p class="news-summary">{{ story.summary }}</p>
+                
+                {% if story.key_points %}
+                <ul class="key-points">
+                    {% for point in story.key_points %}
+                    <li>{{ point }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <div class="news-meta">
+                    <span class="source">
+                        Source: 
+                        {% if story.source_url %}
+                        <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.source }}</a>
+                        {% else %}
+                        {{ story.source }}
+                        {% endif %}
+                    </span>
+                    <span class="badge badge-{{ story.verification_status.lower().replace(' ', '-') }}">
+                        {{ story.verification_status }}
+                    </span>
+                    <span class="confidence">
+                        Confidence: {{ story.confidence_score }}/10
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: {{ story.confidence_score * 10 }}%"></div>
+                        </div>
+                    </span>
+                    <span>{{ story.category }} | {{ story.region }}</span>
+                    {% if story.timestamp %}
+                    <span>{{ story.timestamp }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Regional Tabs -->
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="openTab(event, 'world-tab')">🌍 World News</button>
+            <button class="tab-button" onclick="openTab(event, 'india-tab')">🇮🇳 India News</button>
+            <button class="tab-button" onclick="openTab(event, 'ahmedabad-tab')">🏙️ Ahmedabad News</button>
+        </div>
+
+        <!-- World News Tab -->
+        <div id="world-tab" class="tab-content active">
+            <div class="section">
+                <h2 class="section-title">🌍 World News</h2>
+                {% if report.world_news.categories %}
+                    {% for category in report.world_news.categories %}
+                    <div class="category-section">
+                        <h3 class="category-title">{{ category.category }} ({{ category.verified_count }}/{{ category.total_stories }} verified)</h3>
+                        {% if category.stories %}
+                            {% for story in category.stories %}
+                            <div class="news-card">
+                                <h3>
+                                    {% if story.source_url %}
+                                    <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.headline }}</a>
+                                    {% else %}
+                                    {{ story.headline }}
+                                    {% endif %}
+                                </h3>
+                                <p class="news-summary">{{ story.summary }}</p>
+                                
+                                {% if story.key_points %}
+                                <ul class="key-points">
+                                    {% for point in story.key_points %}
+                                    <li>{{ point }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                <div class="news-meta">
+                                    <span class="source">
+                                        Source: 
+                                        {% if story.source_url %}
+                                        <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.source }}</a>
+                                        {% else %}
+                                        {{ story.source }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="badge badge-{{ story.verification_status.lower().replace(' ', '-') }}">
+                                        {{ story.verification_status }}
+                                    </span>
+                                    <span class="confidence">
+                                        Confidence: {{ story.confidence_score }}/10
+                                        <div class="confidence-bar">
+                                            <div class="confidence-fill" style="width: {{ story.confidence_score * 10 }}%"></div>
+                                        </div>
+                                    </span>
+                                    {% if story.timestamp %}
+                                    <span>{{ story.timestamp }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <p class="no-stories">No stories available in this category</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <p class="no-stories">No world news available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- India News Tab -->
+        <div id="india-tab" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">🇮🇳 India News</h2>
+                {% if report.india_news.categories %}
+                    {% for category in report.india_news.categories %}
+                    <div class="category-section">
+                        <h3 class="category-title">{{ category.category }} ({{ category.verified_count }}/{{ category.total_stories }} verified)</h3>
+                        {% if category.stories %}
+                            {% for story in category.stories %}
+                            <div class="news-card">
+                                <h3>
+                                    {% if story.source_url %}
+                                    <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.headline }}</a>
+                                    {% else %}
+                                    {{ story.headline }}
+                                    {% endif %}
+                                </h3>
+                                <p class="news-summary">{{ story.summary }}</p>
+                                
+                                {% if story.key_points %}
+                                <ul class="key-points">
+                                    {% for point in story.key_points %}
+                                    <li>{{ point }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                <div class="news-meta">
+                                    <span class="source">
+                                        Source: 
+                                        {% if story.source_url %}
+                                        <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.source }}</a>
+                                        {% else %}
+                                        {{ story.source }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="badge badge-{{ story.verification_status.lower().replace(' ', '-') }}">
+                                        {{ story.verification_status }}
+                                    </span>
+                                    <span class="confidence">
+                                        Confidence: {{ story.confidence_score }}/10
+                                        <div class="confidence-bar">
+                                            <div class="confidence-fill" style="width: {{ story.confidence_score * 10 }}%"></div>
+                                        </div>
+                                    </span>
+                                    {% if story.timestamp %}
+                                    <span>{{ story.timestamp }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <p class="no-stories">No stories available in this category</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <p class="no-stories">No India news available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Ahmedabad News Tab -->
+        <div id="ahmedabad-tab" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">🏙️ Ahmedabad News</h2>
+                {% if report.ahmedabad_news.categories %}
+                    {% for category in report.ahmedabad_news.categories %}
+                    <div class="category-section">
+                        <h3 class="category-title">{{ category.category }} ({{ category.verified_count }}/{{ category.total_stories }} verified)</h3>
+                        {% if category.stories %}
+                            {% for story in category.stories %}
+                            <div class="news-card">
+                                <h3>
+                                    {% if story.source_url %}
+                                    <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.headline }}</a>
+                                    {% else %}
+                                    {{ story.headline }}
+                                    {% endif %}
+                                </h3>
+                                <p class="news-summary">{{ story.summary }}</p>
+                                
+                                {% if story.key_points %}
+                                <ul class="key-points">
+                                    {% for point in story.key_points %}
+                                    <li>{{ point }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                <div class="news-meta">
+                                    <span class="source">
+                                        Source: 
+                                        {% if story.source_url %}
+                                        <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.source }}</a>
+                                        {% else %}
+                                        {{ story.source }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="badge badge-{{ story.verification_status.lower().replace(' ', '-') }}">
+                                        {{ story.verification_status }}
+                                    </span>
+                                    <span class="confidence">
+                                        Confidence: {{ story.confidence_score }}/10
+                                        <div class="confidence-bar">
+                                            <div class="confidence-fill" style="width: {{ story.confidence_score * 10 }}%"></div>
+                                        </div>
+                                    </span>
+                                    {% if story.timestamp %}
+                                    <span>{{ story.timestamp }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <p class="no-stories">No stories available in this category</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <p class="no-stories">No Ahmedabad news available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Report Metadata Footer -->
+        <div class="metadata-footer">
+            <h2>📊 Report Metadata</h2>
+            <div class="metadata-grid">
+                <div class="metadata-item">
+                    <div class="metadata-label">Generation Date</div>
+                    <div class="metadata-value">{{ report.metadata.generation_date }}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Total Stories Collected</div>
+                    <div class="metadata-value">{{ report.metadata.total_stories_collected }}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Stories Verified</div>
+                    <div class="metadata-value">{{ report.metadata.total_stories_verified }}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Sources Consulted</div>
+                    <div class="metadata-value">{{ report.metadata.total_sources_consulted }}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">LLM Model</div>
+                    <div class="metadata-value">{{ report.metadata.llm_model_used }}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Verification Model</div>
+                    <div class="metadata-value">{{ report.metadata.verification_model_used }}</div>
+                </div>
+                {% if report.metadata.execution_time_seconds %}
+                <div class="metadata-item">
+                    <div class="metadata-label">Execution Time</div>
+                    <div class="metadata-value">{{ report.metadata.execution_time_seconds }}s</div>
+                </div>
+                {% endif %}
+                {% if report.metadata.success_rate %}
+                <div class="metadata-item">
+                    <div class="metadata-label">Success Rate</div>
+                    <div class="metadata-value">{{ "%.1f"|format(report.metadata.success_rate) }}%</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+                <p style="color: #7f8c8d; font-size: 0.9em; text-align: center;">
+                    <strong>Categories Covered:</strong> {{ report.metadata.categories_covered | join(', ') }}<br>
+                    <strong>Regions Covered:</strong> {{ report.metadata.regions_covered | join(', ') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            // Remove active class from all tab buttons
+            var tabButtons = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+
+            // Show the selected tab and mark button as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

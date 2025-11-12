@@ -25,7 +25,7 @@ political_news_search:
     - Find 4-6 significant political stories across regions
     - Ensure coverage of major political developments
     - Provide sufficient detail from search results for analysis
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 political news stories with:
     - Headline with political context
@@ -59,7 +59,7 @@ political_news_content:
     - Successfully extract detailed content from 2-3 priority political articles  
     - Focus on articles with greatest political significance
     - Maintain content accuracy and political context
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed political content for 2-3 priority stories including:
     - Full article headline and political context
@@ -134,7 +134,7 @@ economy_news_search:
     SUCCESS CRITERIA:
     - Find 4-6 significant economic stories across regions
     - Focus on market-moving and economically significant news
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 economic news stories with:
     - Headline with economic context
@@ -160,7 +160,7 @@ economy_news_content:
     SUCCESS CRITERIA:
     - Extract detailed economic content from 2-3 priority articles
     - Focus on stories with greatest market significance  
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed economic content for 2-3 priority stories including:
     - Full article text with key economic data and analysis
@@ -218,7 +218,7 @@ technology_news_search:
     SUCCESS CRITERIA:
     - Find 4-6 significant technology stories across regions
     - Focus on innovation-significant and industry-impacting developments
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 technology news stories with:
     - Headline with technology context
@@ -244,7 +244,7 @@ technology_news_content:
     SUCCESS CRITERIA:
     - Extract detailed technical content from 2-3 priority articles
     - Focus on stories with greatest innovation significance
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed technology content for 2-3 priority stories including:
     - Full technical details and specifications
@@ -297,7 +297,7 @@ science_news_search:
     SUCCESS CRITERIA:
     - Find 4-6 significant scientific stories across regions
     - Focus on peer-reviewed research and credible scientific developments
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 science news stories with:
     - Headline with scientific context
@@ -322,7 +322,7 @@ science_news_content:
     SUCCESS CRITERIA:
     - Extract detailed scientific content from 2-3 priority articles
     - Focus on stories with greatest research significance
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed scientific content for 2-3 priority stories including:
     - Full research details and methodology
@@ -381,7 +381,7 @@ stock_market_news_search:
     SUCCESS CRITERIA:
     - Find 4-6 significant market stories across regions
     - Focus on market-moving and trading-significant news
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 stock market news stories with:
     - Headline with market context
@@ -400,7 +400,7 @@ stock_market_news_content:
     SUCCESS CRITERIA:
     - Extract detailed market content from 2-3 priority articles
     - Focus on stories with greatest market significance
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed stock market content for 2-3 priority stories including:
     - Full market analysis and financial details
@@ -451,7 +451,7 @@ energy_news_search:
     SUCCESS CRITERIA:
     - Find 4-6 significant energy stories across regions
     - Focus on energy policy and market-significant developments
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 energy news stories with:
     - Headline with energy sector context
@@ -468,7 +468,7 @@ energy_news_content:
     
     SUCCESS CRITERIA:
     - Extract detailed energy content from 2-3 priority articles
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed energy content for 2-3 priority stories including:
     - Full energy analysis and sector implications
@@ -510,7 +510,7 @@ infrastructure_news_search:
     
     SUCCESS CRITERIA:
     - Find 4-6 significant infrastructure stories across regions
-    - Complete within 5 minutes
+
   expected_output: >
     List of 4-6 infrastructure news stories with:
     - Headline with infrastructure context
@@ -526,7 +526,7 @@ infrastructure_news_content:
     
     SUCCESS CRITERIA:
     - Extract detailed infrastructure content from 2-3 priority articles
-    - Complete within 5 minutes
+
   expected_output: >
     Detailed infrastructure content for 2-3 priority stories including:
     - Full project details and development timelines
@@ -554,48 +554,114 @@ infrastructure_news_verification:
   output_file: "output/infrastructure_news_verification_report.md"
 
 # FINAL REPORTING TASK
+# Uses Pydantic structured output with Jinja2 template rendering
 final_news_report:
   description: >
-    Organize all verified news into a structured, professional HTML report with clear categorization and reliability indicators.
+    Organize all verified news into a STRUCTURED JSON format that will be rendered into HTML.
+    CRITICAL: You MUST output data in the specified Pydantic schema format. Do NOT generate HTML directly.
     
-    REPORT ORGANIZATION:
-    1. Executive Summary - Top stories across all categories
-    2. Regional Sections:
-       - World News (Global developments)
-       - India News (National developments)  
-       - Ahmedabad News (Local developments)
-    3. Category Sections:
-       - Political News
-       - Economy News
-       - Technology News
-       - Science News  
-       - Stock Market News
-       - Energy News
-       - Infrastructure News
-    4. Quality Indicators:
-       - Verification status for each story
-       - Source credibility ratings
-       - Reliability badges
+    DATA ORGANIZATION REQUIREMENTS:
+    1. Executive Summary:
+       - Write 3-5 paragraphs highlighting the top stories across all categories
+       - Focus on significance, impact, and key takeaways
+       - Mention geopolitical, economic, and technological highlights      
     
-    HTML DESIGN REQUIREMENTS:
-    - Professional, clean layout with responsive design
-    - Color-coded reliability indicators
-    - Easy navigation between categories and regions
-    - News cards with hover effects and clear typography
-    - Source attribution and methodology footer
+    2. FEATURED STORIES:
+       - Select 5-10 most significant stories across ALL categories and regions
+       - Include stories with highest confidence scores (8-10)
+       - Ensure diversity across categories
+       - Include full story details with source URLs
     
-    SUCCESS CRITERIA:
-    - Create comprehensive HTML report incorporating all specialist findings
-    - Ensure professional presentation with reliability indicators
-    - Complete within 5 minutes
+    3. REGIONAL NEWS ORGANIZATION:
+       For each region (World, India, Ahmedabad):
+       - Organize stories by category (Political, Economy, Technology, Science, Stock Market, Energy, Infrastructure)
+       - Include ONLY stories relevant to that region
+       - For each story, provide:
+         * headline: Clear, factual headline
+         * summary: 2-3 sentence summary
+         * source: Publication name
+         * source_url: Direct URL to original article (REQUIRED - extract from verification reports)
+         * category: One of the 7 categories
+         * region: World/India/Ahmedabad
+         * verification_status: Verified/Partially Verified/Developing/Unverified
+         * confidence_score: 1-10 rating
+         * timestamp: Publication time if available
+         * key_points: Optional bullet points of key information
+    
+    4. METADATA COMPILATION:
+       - Count total stories collected across all tasks
+       - Count verified vs unverified stories
+       - List all sources consulted
+       - Record models used (gemini-1.5-flash for collection, gemini-2.5-pro for verification)
+       - Calculate success rate
+    
+    DATA EXTRACTION STRATEGY:
+    - Parse all 7 verification reports (political, economy, technology, science, stock_market, energy, infrastructure)
+    - Extract stories with their complete metadata
+    - Ensure source URLs are preserved from original search results
+    - Categorize by both region AND category
+    - Apply quality filters (prioritize verified stories with high confidence)
+    
+    QUALITY STANDARDS:
+    - All stories must have complete information (no missing required fields)
+    - Source URLs must be actual URLs from news sites
+    - Confidence scores must reflect verification results
+    - Regional classification must be accurate
+    
+    OUTPUT FORMAT:
+    The output will be automatically validated against the NewsReport Pydantic schema and rendered to HTML using Jinja2 template.
   expected_output: >
-    Professional HTML news report including:
-    - Executive Summary with key highlights from all categories
-    - Regional news organization (World/India/Ahmedabad)
-    - Category-specific news sections with specialist analysis
-    - Quality indicators and verification status for all stories
-    - Professional formatting with source attribution
-    - Navigation and user-friendly interface elements
+    Complete NewsReport object with:
+    - title: "Daily News Report"
+    - generation_date: Today's date (YYYY-MM-DD format)
+    - executive_summary: Comprehensive 3-5 paragraph summary
+    - featured_stories: List of 5-10 top stories with full details
+    - world_news: RegionalNews object with categorized stories
+    - india_news: RegionalNews object with categorized stories  
+    - ahmedabad_news: RegionalNews object with categorized stories
+    - metadata: Complete ReportMetadata with statistics
+    
+    Example structure:
+    {
+      "title": "Daily News Report",
+      "generation_date": "2025-11-10",
+      "executive_summary": "Today's key developments...",
+      "featured_stories": [
+        {
+          "headline": "China Accelerates ICBM Production",
+          "summary": "Verified reports confirm...",
+          "source": "Reuters",
+          "source_url": "https://reuters.com/article/123",
+          "category": "Political",
+          "region": "World",
+          "verification_status": "Verified",
+          "confidence_score": 9
+        }
+      ],
+      "world_news": {
+        "region": "World",
+        "categories": [
+          {
+            "category": "Political",
+            "stories": [...],
+            "total_stories": 5,
+            "verified_count": 4,
+            "developing_count": 1
+          }
+        ],
+        "total_stories": 30
+      },
+      "metadata": {
+        "generation_date": "2025-11-10 21:30:00",
+        "total_stories_collected": 42,
+        "total_stories_verified": 38,
+        "total_sources_consulted": 25,
+        "categories_covered": ["Political", "Economy", "Technology", "Science", "Stock Market", "Energy", "Infrastructure"],
+        "regions_covered": ["World", "India", "Ahmedabad"],
+        "llm_model_used": "vertex_ai/gemini-1.5-flash",
+        "verification_model_used": "vertex_ai/gemini-2.5-pro"
+      }
+    }
   agent: news_reporting_specialist
   context: [
     political_news_verification, 
@@ -606,4 +672,4 @@ final_news_report:
     energy_news_verification, 
     infrastructure_news_verification
   ]
-  output_file: "output/final_news_report.html"
+  output_file: "output/final_news_report.json"

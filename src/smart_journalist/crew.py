@@ -7,12 +7,17 @@ It includes all agents, tasks, and the crew configuration.
 
 import os
 import json
+import time
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import Optional, List, Dict, Any
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool
+
+# Import Pydantic models and renderer
+from .models import NewsReport
+from .renderer import NewsReportRenderer
 
 @CrewBase
 class SmartJournalistCrew():
@@ -52,8 +57,14 @@ class SmartJournalistCrew():
         self.news_search_tool = SerperDevTool()
         self.web_scraper_tool = ScrapeWebsiteTool()
 
+        # Initialize renderer
+        self.renderer = NewsReportRenderer(template_dir="src/smart_journalist/templates")
+
         self.agents_config = 'config/agents.yaml'
         self.tasks_config = 'config/tasks.yaml'
+
+        # Track execution time
+        self.start_time = None
 
     # political news agent and tasks
     @agent
@@ -312,15 +323,17 @@ class SmartJournalistCrew():
 
     @task
     def final_news_report(self) -> Task:
-        """Creates the final news report task"""
+        """Creates the final news report task with Pydantic output"""
         return Task(
             config=self.tasks_config['final_news_report'],
+            output_pydantic=NewsReport,  # ← Structured output
             tools=[],
         )
 
     @crew
     def crew(self) -> Crew:
         """Create and return the configured crew."""
+        self.start_time = time.time()
 
         agents = self.agents # self.create_agents()
         tasks = self.tasks # self.create_tasks(agents)
@@ -343,6 +356,84 @@ class SmartJournalistCrew():
             # },
             max_rpm=60,  # ← Request Rate limiting to LLM per minute
         )
+
+    @staticmethod
+    def validate_llm_response(response):
+        """Validate LLM response and handle None or empty cases."""
+        if response is None or (isinstance(response, str) and not response.strip()):
+            # Log error and return fallback message
+            print("Error: Invalid response from LLM call - None or empty.")
+            return "[ERROR] No valid response received from LLM. Please check configuration and try again."
+        return response
+
+    def kickoff_and_render(
+        self,
+        inputs: Optional[Dict[str, Any]] = None,
+    ) -> tuple[Any, str]:
+        """
+        Execute crew and render HTML report.
+        
+        Returns:
+            Tuple of (crew_result, html_output_path)
+        """
+        print("🚀 Starting Smart Journalist Crew execution...")
+        print(f"📅 Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        try:
+            # Execute crew
+            crew_instance = self.crew()
+            result = crew_instance.kickoff(inputs=inputs)
+            
+            # Calculate execution time
+            execution_time = int(time.time() - self.start_time) if self.start_time else None
+            
+            # Extract structured output
+            if hasattr(result, 'pydantic'):
+                report_data = result.pydantic
+            elif isinstance(result, NewsReport):
+                report_data = result
+            else:
+                # Try to parse as JSON
+                if isinstance(result, str):
+                    report_data = NewsReport.model_validate_json(result)
+                else:
+                    report_data = NewsReport(**result)
+            
+            # Update metadata with execution time
+            if execution_time and report_data.metadata:
+                report_data.metadata.execution_time_seconds = execution_time
+                if report_data.metadata.total_stories_collected > 0:
+                    report_data.metadata.success_rate = (
+                        report_data.metadata.total_stories_verified / 
+                        report_data.metadata.total_stories_collected * 100
+                    )
+            
+            print("✅ News collection completed successfully!")
+            print(f"📊 Statistics:")
+            print(f"   - Total Stories: {report_data.metadata.total_stories_collected}")
+            print(f"   - Verified: {report_data.metadata.total_stories_verified}")
+            print(f"   - Sources: {report_data.metadata.total_sources_consulted}")
+            print(f"   - Execution Time: {execution_time}s")
+            
+            # Render to HTML
+            print("\n🎨 Rendering HTML report...")
+            output_path = f"output/final_news_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+            
+            html_output = self.renderer.render(
+                report_data,
+                template_name="news_report_template.html",
+                output_file=output_path
+            )
+            
+            print(f"✅ HTML report generated: {output_path}")
+            
+            return result, output_path
+            
+        except Exception as e:
+            print(f"❌ Error during execution: {e}")
+            import traceback
+            traceback.print_exc()
+            raise
 
     
     # def create_agents(self):
