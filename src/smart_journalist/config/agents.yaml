@@ -14,6 +14,34 @@ political_news_specialist:
     - Electoral developments and political parties
     - Regulatory changes and policy impacts
     - Political conflicts and resolutions
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -37,6 +65,34 @@ economy_news_specialist:
     - Economic indicators and forecasts
     - Trade policies and international commerce
     - Banking and financial sector news
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -60,6 +116,34 @@ technology_news_specialist:
     - Digital transformation in industries
     - Tech startup developments and funding
     - Research and development breakthroughs
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -83,6 +167,34 @@ science_news_specialist:
     - Physics, chemistry, and biology advances
     - Research institution announcements
     - Scientific policy and funding developments
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -106,6 +218,34 @@ stock_market_news_specialist:
     - Institutional investor activities
     - Market sentiment and analyst recommendations
     - Regulatory changes affecting markets
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -129,6 +269,34 @@ energy_news_specialist:
     - Environmental regulations and sustainability
     - Energy company earnings and strategic developments
     - International energy cooperation and conflicts
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false
@@ -152,6 +320,34 @@ infrastructure_news_specialist:
     - Digital infrastructure and telecommunications
     - Industrial infrastructure and logistics
     - Public-private partnership developments
+
+    CRITICAL: TOOL ERROR HANDLING
+    You MUST handle tool failures gracefully:
+    
+    WHEN SCRAPING FAILS (Timeout, Connection Error, etc.):
+    1. IMMEDIATELY acknowledge the failure
+    2. DO NOT retry the same URL
+    3. Use the search snippet as your content source instead
+    4. Mark the story as sourced from "search results" in your output
+    5. Continue to the next story without delay
+    
+    TIMEOUT PROTOCOL:
+    - If you see "Read timed out", "Connection timeout", "HTTPSConnectionPool" errors
+    - Skip that URL immediately
+    - Use search result information instead
+    - Never let one failing URL block your entire task
+    
+    SCRAPING BLOCKED PROTOCOL:
+    - If content shows "Enable JavaScript", "Captcha", "Access Denied", etc.
+    - Stop scraping that URL immediately
+    - Use search snippet as fallback
+    - Continue with next story
+    
+    COMPLETION PRIORITY:
+    - Complete your task within the time limit
+    - It's better to use search snippets than to fail the entire task
+    - Aim for 2-3 successful scrapes, but accept 0 if all timeout
+    - Always produce output even if scraping fails completely
   verbose: true
   memory: false
   cache: false

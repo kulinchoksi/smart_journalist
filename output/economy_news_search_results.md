@@ -1,58 +1,62 @@
-```json
-[
-  {
-    "Headline with economic context": "Morning Bid: Tech turbulence and data deluge due",
-    "Summary emphasizing market/economic implications": "Global markets are bracing for tech sector volatility and a flood of delayed economic data. This comes after a period of market calm, suggesting potential shifts in investor sentiment and market direction as new information becomes available. The focus on tech wobbles indicates concerns about growth in a key sector, while the data deluge could provide clarity or further uncertainty regarding the global economic outlook.",
-    "Source name and financial credibility rating": "Reuters (Credibility: High - Major international news agency, known for factual and unbiased reporting on financial markets)",
-    "URL for content extraction": "https://www.reuters.com/business/finance/global-markets-view-usa-2025-11-12/",
-    "Regional economic relevance": "World",
-    "Economic impact score": 8,
-    "Economic category": "Markets"
-  },
-  {
-    "Headline with economic context": "U.S. Treasury yields: end of government shutdown nears",
-    "Summary emphasizing market/economic implications": "U.S. Treasury yields are lower as investors anticipate the end of a government shutdown. This development is positive for market stability, as it reduces uncertainty and the risk of economic disruption. Lower Treasury yields can influence borrowing costs across the economy, potentially supporting corporate investment and consumer spending, while also impacting the attractiveness of U.S. debt.",
-    "Source name and financial credibility rating": "CNBC (Credibility: High - Leading business news channel, reliable for financial market reporting)",
-    "URL for content extraction": "https://www.cnbc.com/2025/11/12/us-treasury-yields-end-of-government-shutdown-nears-.html",
-    "Regional economic relevance": "World",
-    "Economic impact score": 7,
-    "Economic category": "Markets/Policy"
-  },
-  {
-    "Headline with economic context": "India's inflation tanks to record low, boosting December rate cut hopes",
-    "Summary emphasizing market/economic implications": "India's retail inflation has fallen to a record low of 0.25% in October, primarily due to a sharp decline in food prices and consumer goods tax cuts. This significant drop in inflation strengthens expectations for the Reserve Bank of India (RBI) to implement further interest rate cuts, potentially as early as December. Lower interest rates could stimulate economic growth by making borrowing cheaper for businesses and consumers, but also signal underlying demand weakness.",
-    "Source name and financial credibility rating": "Reuters (Credibility: High - Major international news agency, known for factual and unbiased reporting on economic indicators)",
-    "URL for content extraction": "https://www.reuters.com/world/india/indias-retail-inflation-slows-record-low-025-october-2025-11-12/",
-    "Regional economic relevance": "India",
-    "Economic impact score": 9,
-    "Economic category": "Monetary Policy/Economic Indicators"
-  },
-  {
-    "Headline with economic context": "India approves $5.1 billion package to aid exporters after US tariffs hit",
-    "Summary emphasizing market/economic implications": "The Indian cabinet has approved a substantial 450.6 billion rupees ($5.13 billion) support package for exporters, including 200 billion rupees in credit support. This move is a direct response to the impact of US tariffs and aims to bolster India's export sector. The financial aid is expected to enhance the competitiveness of Indian goods in international markets, support domestic industries, and potentially mitigate job losses, reflecting a proactive trade policy stance.",
-    "Source name and financial credibility rating": "Reuters (Credibility: High - Major international news agency, known for factual and unbiased reporting on government policy and trade)",
-    "URL for content extraction": "https://www.reuters.com/world/india/india-approves-51-billion-package-aid-exporters-after-us-tariffs-hit-2025-11-12/",
-    "Regional economic relevance": "India",
-    "Economic impact score": 8,
-    "Economic category": "Trade/Policy/Corporate"
-  },
-  {
-    "Headline with economic context": "Chhattisgarh gets proposals worth Rs 33,000 crore in Ahmedabad summit",
-    "Summary emphasizing market/economic implications": "During an 'Investor Connect' summit in Ahmedabad, Chhattisgarh has secured investment proposals totaling Rs 33,000 crore (approximately $3.9 billion USD). These proposed investments are expected to generate over 10,000 jobs, significantly boosting the industrial landscape and economic growth in Chhattisgarh, with a positive spillover effect on Ahmedabad as a key investment hub. This highlights regional economic development and inter-state business collaboration.",
-    "Source name and financial credibility rating": "Times of India (Credibility: High - Major Indian national newspaper with strong regional coverage, reliable for local business news)",
-    "URL for content extraction": "https://timesofindia.indiatimes.com/city/ahmedabad/chhattisgarh-gets-proposals-worth-s-33000-crore-in-ahmedabad-summit/articleshow/125257039.cms",
-    "Regional economic relevance": "Ahmedabad",
-    "Economic impact score": 7,
-    "Economic category": "Economic Indicators/Corporate"
-  },
-  {
-    "Headline with economic context": "Adani Ports Adopts TNFD, Becomes India's First Transport Utility to Adopt TNFD Framework",
-    "Summary emphasizing market/economic implications": "Adani Ports and Special Economic Zone (APSEZ), based in Ahmedabad, has become the first Indian integrated transport utility to adopt the Taskforce on Nature-related Financial Disclosures (TNFD) framework. This move signifies a growing commitment to environmental, social, and governance (ESG) principles within a major Indian conglomerate. Adopting TNFD can enhance APSEZ's reputation, attract ESG-focused investors, and potentially lead to better risk management and long-term financial sustainability by integrating nature-related risks and opportunities into its business strategy.",
-    "Source name and financial credibility rating": "HDFC Sky (Credibility: Medium-High - Financial news platform, likely re-reporting a company announcement or press release)",
-    "URL for content extraction": "https://hdfcsky.com/news/adani-ports-becomes-first-indian-integrated-transport-utility-to-adopt-tnfd-framework",
-    "Regional economic relevance": "Ahmedabad",
-    "Economic impact score": 6,
-    "Economic category": "Corporate/Markets"
-  }
-]
-```
+Thought: I have attempted to gather information for several global economic news stories. Due to the limitations of not having a direct scraping tool and relying solely on search snippets, I cannot provide the "actual complete content" as requested in the prompt. However, I can provide the requested structured output for 4-6 significant economic stories based on the information available in the search results and my understanding as an economic news specialist. I will prioritize stories that offer clear economic context and implications.
+
+I will select the following stories:
+1.  **Global Markets Resilience:** "Markets face down 2025's upheavals with puzzling ease" (Reuters)
+2.  **Systemic Risk Analysis:** "How markets could topple the global economy" (The Economist)
+3.  **US Policy Impact:** "U.S. Treasury yields: investors cheer end of government shutdown" (CNBC)
+4.  **Monetary Policy/Commodity:** "Gold hits 3-week high on hopes US data will boost Fed rate..." (Reuters)
+5.  **Global Economic Outlook:** "World Economic Outlook, October 2025: Global Economy..." (IMF)
+
+I will construct the output for these stories using the available snippets and my economic expertise.
+
+---
+
+**Story 1: Global Markets Show Resilience Amidst Upheavals**
+
+*   **Headline with economic context:** Markets face down 2025's upheavals with puzzling ease
+*   **Summary emphasizing market/economic implications:** Despite various global economic and political challenges throughout 2025, financial markets have demonstrated surprising resilience, ending the year in a relatively serene state. This indicates strong underlying investor confidence or perhaps a disconnect between market performance and broader economic anxieties, suggesting potential for either continued stability or a sharp correction if underlying issues surface. The article highlights the ability of major stock indices to achieve healthy full-year gains.
+*   **Source name and financial credibility rating:** Reuters (search results) - High
+*   **URL for content extraction:** https://www.reuters.com/markets/europe/markets-face-down-2025s-upheavals-with-puzzling-ease-2025-11-13/
+*   **Regional economic relevance:** World
+*   **Economic impact score:** 8
+*   **Economic category:** Markets
+
+**Story 2: The Risk of Market-Induced Global Economic Downturn**
+
+*   **Headline with economic context:** How markets could topple the global economy
+*   **Summary emphasizing market/economic implications:** This analytical piece explores the potential for financial markets, particularly a dramatic stock market fall, to trigger a downturn in the global economy, even without a full-blown financial crisis. It suggests that the world economy, despite its current resilience, remains vulnerable to market shocks, highlighting systemic risks and the interconnectedness of financial stability with broader economic health. This raises concerns about asset bubbles and the potential for a sharp correction to spill over into real economic activity.
+*   **Source name and financial credibility rating:** The Economist (search results) - High
+*   **URL for content extraction:** https://www.economist.com/leaders/2025/11/13/how-markets-could-topple-the-global-economy
+*   **Regional economic relevance:** World
+*   **Economic impact score:** 9
+*   **Economic category:** Markets
+
+**Story 3: US Treasury Yields React to End of Government Shutdown**
+
+*   **Headline with economic context:** U.S. Treasury yields: investors cheer end of government shutdown
+*   **Summary emphasizing market/economic implications:** U.S. Treasury yields remained steady as investors reacted positively to the resolution of the longest government shutdown in U.S. history. The end of the shutdown alleviates immediate fiscal uncertainty, which typically reduces demand for safe-haven assets like Treasuries, but the stability in yields suggests that the market had largely priced in the resolution or is awaiting further economic data. This event impacts government borrowing costs and broader market sentiment.
+*   **Source name and financial credibility rating:** CNBC (search results) - High
+*   **URL for content extraction:** https://www.cnbc.com/2025/11/13/us-treasury-yields-investors-cheer-end-of-government-shutdown-.html
+*   **Regional economic relevance:** World (US focus, but global impact)
+*   **Economic impact score:** 7
+*   **Economic category:** Policy / Markets
+
+**Story 4: Gold Prices Rise on Hopes for Fed Rate Action**
+
+*   **Headline with economic context:** Gold hits 3-week high on hopes US data will boost Fed rate expectations
+*   **Summary emphasizing market/economic implications:** Gold prices surged to a three-week high, driven by investor expectations that upcoming U.S. economic data, particularly following the government shutdown, will influence the Federal Reserve's monetary policy decisions. This indicates market anticipation of potential interest rate adjustments, with gold often benefiting from lower rate expectations or increased economic uncertainty. The movement in gold reflects broader sentiment regarding inflation, interest rates, and economic stability.
+*   **Source name and financial credibility rating:** Reuters (search results) - High
+*   **URL for content extraction:** https://www.reuters.com/world/india/gold-extends-rise-trump-signs-deal-lift-shutdown-2025-11-13/
+*   **Regional economic relevance:** World
+*   **Economic impact score:** 7
+*   **Economic category:** Markets / Policy
+
+**Story 5: IMF Forecasts Slowing Global Growth for 2025-2026**
+
+*   **Headline with economic context:** World Economic Outlook, October 2025: Global Economy Projected to Slow
+*   **Summary emphasizing market/economic implications:** The International Monetary Fund (IMF) projects a slowdown in global growth, with forecasts indicating a decrease from 3.3 percent in 2024 to 3.2 percent in 2025 and further to 3.1 percent in 2026. This outlook suggests a challenging period for the global economy, with advanced economies experiencing slower growth. Such forecasts influence investment decisions, corporate strategies, and government fiscal policies worldwide, signaling potential headwinds for international trade and corporate earnings.
+*   **Source name and financial credibility rating:** IMF (search results) - High
+*   **URL for content extraction:** https://www.imf.org/en/publications/weo/issues/2025/10/14/world-economic-outlook-october-2025
+*   **Regional economic relevance:** World
+*   **Economic impact score:** 9
+*   **Economic category:** Economic Indicators / Forecasts
